@@ -102,42 +102,6 @@ export default function Hero() {
                     </span>
                 </motion.h1>
 
-                {/* Caption */}
-                <motion.p
-                    className="mt-8 md:mt-10 text-sm md:text-base leading-relaxed text-[var(--muted)] max-w-md font-[var(--font-caveat)] text-lg md:text-xl"
-                    variants={fadeUp}
-                    initial="hidden"
-                    animate="visible"
-                    custom={1.0}
-                >
-                    Every frame a heartbeat. Every memory a world
-                    built from time. This is our story.
-                </motion.p>
-
-                {/* Anniversary counter + CTA */}
-                <motion.div
-                    className="mt-8 md:mt-10 flex items-center gap-8"
-                    variants={fadeUp}
-                    initial="hidden"
-                    animate="visible"
-                    custom={1.3}
-                >
-                    {/* Anniversary counter */}
-                    <div className="flex flex-col">
-                        <span className="text-3xl md:text-5xl font-extrabold text-[var(--accent)] tabular-nums">
-                            {days}
-                        </span>
-                        <span className="text-[10px] md:text-xs tracking-[0.3em] uppercase text-[var(--muted)] mt-1">
-                            Days of Us
-                        </span>
-                    </div>
-
-                    <div className="w-px h-12 bg-white/10" />
-
-                    <button className="bg-[var(--accent)] text-black px-8 py-3 rounded-full text-sm font-semibold tracking-wide uppercase hover:brightness-110 transition-all duration-300 hover:scale-[1.03] active:scale-[0.97]">
-                        Explore
-                    </button>
-                </motion.div>
             </div>
 
             {/* Scroll indicator */}
