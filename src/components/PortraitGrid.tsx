@@ -125,14 +125,14 @@ function MemoryCard({
                 ))}
             </div>
 
-            {/* Title + tags overlay — always visible, on the image */}
-            <div className="absolute bottom-0 left-0 right-0 z-20 p-5 md:p-6 bg-gradient-to-t from-black/80 via-black/50 to-transparent">
-                <h3 className="text-2xl md:text-3xl text-white leading-snug" style={{ fontFamily: 'var(--font-dancing)' }}>
+            {/* Title + tags overlay — centered on card */}
+            <div className="absolute inset-0 z-20 flex flex-col justify-end items-start p-6 md:p-8 pb-8 md:pb-10 bg-gradient-to-t from-black/80 via-black/30 to-transparent">
+                <h3 className="text-3xl md:text-5xl text-white leading-[1.1]" style={{ fontFamily: 'var(--font-dancing)' }}>
                     {memory.title}
                 </h3>
 
                 {/* Tag pills */}
-                <div className="flex flex-wrap gap-1.5 mt-3">
+                <div className="flex flex-wrap gap-1.5 mt-4">
                     {memory.tags.map((tag) => (
                         <span
                             key={tag}
