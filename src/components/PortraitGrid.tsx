@@ -95,30 +95,39 @@ export default function PortraitGrid({
         const lenis = new Lenis({
             lerp: 0.05, // Heavy, expensive feel
             smoothWheel: true,
+            wheelMultiplier: 1.5, // Make manual scroll feel more responsive
         })
 
-        let autoScroll = 0
+        let autoScrollOffset = 0
         let lastTime = performance.now()
         let rafId: number
 
         function raf(time: number) {
             lenis.raf(time)
 
-            // Auto-drift logic: slow, continuous movement
+            // Calculate auto-drift delta
             const dt = time - lastTime
-            autoScroll += dt * 0.035 // Adjust speed here
             lastTime = time
 
-            // Parallax Logic combined with Auto-drift
-            const scrollY = window.scrollY
+            // Only add auto-scroll if the user isn't actively hijacking the scroll heavily
+            // (We check lenis velocity. If it's near zero, we drift. If they fling it, we let it fly).
+            // @ts-ignore - velocity exists on the lenis instance at runtime but may be missing from older type definitions
+            const isManuallyScrolling = Math.abs(lenis.velocity) > 0.5
+            if (!isManuallyScrolling) {
+                autoScrollOffset += dt * 0.035 // Adjust drift speed here
+            }
+
+            // The final "virtual scroll" is where they scrolled TO + the drift offset
+            // NOTE: lenis.scroll gives us the current manual scroll position.
+            const virtualScrollY = lenis.scroll + autoScrollOffset
+
             columnsRef.current.forEach((col, i) => {
                 if (!col) return
                 const isUp = i % 2 === 0
                 const speed = 0.02 + i * 0.015
                 const dir = isUp ? -1 : 1
 
-                // Final translation is the user's manual scroll + automatic drift
-                const totalMove = (scrollY + autoScroll) * speed * dir
+                const totalMove = virtualScrollY * speed * dir
                 col.style.transform = `translateY(${totalMove}px)`
             })
 
@@ -136,9 +145,9 @@ export default function PortraitGrid({
     const columns: Memory[][] = [[], [], [], []]
     memories.forEach((m, i) => columns[i % 4].push(m))
 
-    // Duplicate EXTREMELY heavily for true infinite auto-scroll illusion 
-    // (enough cards to drift for a very long time without running out)
-    const dupesMap = columns.map(col => Array(25).fill(col).flat())
+    // The user requested to "clean out the frames and leave just 6" per column
+    // This provides enough length for parallax without overloading the DOM.
+    const dupesMap = columns.map(col => Array(6).fill(col).flat())
 
     return (
         <section id="timeline" className="relative h-[150vh] md:h-[200vh] px-8 sm:px-12 md:px-24 lg:px-32 py-32 overflow-hidden bg-[var(--bg)] flex justify-center">
