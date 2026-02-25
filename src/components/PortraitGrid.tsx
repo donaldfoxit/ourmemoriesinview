@@ -171,8 +171,10 @@ export default function PortraitGrid({
             const scrollY = window.scrollY
             columnsRef.current.forEach((col, i) => {
                 if (!col) return
-                const speed = 0.04 + i * 0.025
-                col.style.transform = `translateY(${scrollY * speed}px)`
+                const isUp = i !== 1
+                const speed = 0.15 + i * 0.05
+                const dir = isUp ? -1 : 1
+                col.style.transform = `translateY(${scrollY * speed * dir}px)`
             })
         }
 
@@ -187,34 +189,44 @@ export default function PortraitGrid({
     const columns: Memory[][] = [[], [], []]
     memories.forEach((m, i) => columns[i % 3].push(m))
 
+    // Duplicate heavily for infinite loop
+    const dupesMap = columns.map(col => [...col, ...col, ...col, ...col, ...col, ...col, ...col, ...col])
+
     return (
-        <section className="relative min-h-[220vh] px-6 md:px-14 py-32 overflow-hidden">
-
-
-            {/* 3-column parallax grid */}
-            <div className="flex gap-6 md:gap-10">
-                {columns.map((col, colIndex) => (
-                    <div
-                        key={colIndex}
-                        ref={(el) => { columnsRef.current[colIndex] = el }}
-                        className="flex-1 flex flex-col gap-6 md:gap-10 will-change-transform"
-                        style={{ transition: 'transform 0.1s linear' }}
-                    >
-                        {col.map((memory, i) => (
-                            <MemoryCard
-                                key={memory.id}
-                                memory={memory}
-                                index={colIndex * 3 + i}
-                                onOpen={onOpenMemory}
-                            />
-                        ))}
-                    </div>
-                ))}
+        <section className="relative h-[120vh] md:h-[150vh] px-6 md:px-14 py-20 overflow-hidden">
+            {/* 3-column infinite parallax grid */}
+            <div className="flex gap-6 md:gap-10 h-full max-w-[1400px] mx-auto z-0 relative">
+                {columns.map((col, colIndex) => {
+                    const isUp = colIndex !== 1
+                    return (
+                        <div
+                            key={colIndex}
+                            ref={(el) => { columnsRef.current[colIndex] = el }}
+                            className="flex-1 relative h-[200%] -top-[50%] will-change-transform"
+                            style={{ transition: 'transform 0.1s linear' }}
+                        >
+                            <motion.div
+                                className="absolute top-0 left-0 w-full flex flex-col gap-6 md:gap-10"
+                                animate={{ y: isUp ? ['0%', '-50%'] : ['-50%', '0%'] }}
+                                transition={{ repeat: Infinity, ease: 'linear', duration: 40 + colIndex * 8 }}
+                            >
+                                {dupesMap[colIndex].map((memory, i) => (
+                                    <MemoryCard
+                                        key={`${memory.id}-${i}`}
+                                        memory={memory}
+                                        index={colIndex * 3 + (i % col.length)}
+                                        onOpen={onOpenMemory}
+                                    />
+                                ))}
+                            </motion.div>
+                        </div>
+                    )
+                })}
             </div>
 
             {/* Cinematic fade masks */}
-            <div className="fade-top absolute top-0 left-0 w-full h-40 pointer-events-none z-10" />
-            <div className="fade-bottom absolute bottom-0 left-0 w-full h-40 pointer-events-none z-10" />
+            <div className="fade-top absolute top-0 left-0 w-full h-32 md:h-64 pointer-events-none z-10 bg-gradient-to-b from-black via-black/80 to-transparent" />
+            <div className="fade-bottom absolute bottom-0 left-0 w-full h-32 md:h-64 pointer-events-none z-10 bg-gradient-to-t from-black via-black/80 to-transparent" />
         </section>
     )
 }
