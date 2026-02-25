@@ -14,14 +14,14 @@ export interface Memory {
 // ── Sample memories (replace images with your own!) ──
 export const memories: Memory[] = [
     {
-        id: 'beach-sunset',
+        id: 'sino-mart',
         title: 'THE SUNSET WE ALMOST KISSED',
         date: '2024-08-12',
         location: 'SINOMART SUPERMARKET, ONIRU',
         caption: 'We were running late but the sky waited for us. Golden hour never looked this good.',
         images: [
-            '/memories/beach-sunset/1_ghibli.png',
-            '/memories/beach-sunset/1.webp',
+            '/memories/sino-mart/1_ghibli.png',
+            '/memories/sino-mart/1.webp',
             'https://images.unsplash.com/photo-1476673160081-cf065607f449?w=800&q=80',
             'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=800&q=80',
             'https://images.unsplash.com/photo-1473116763249-2faaef81ccda?w=800&q=80',
@@ -30,10 +30,10 @@ export const memories: Memory[] = [
         season: 'summer',
     },
     {
-        id: 'rooftop-night',
+        id: 'sip-and-paint',
         title: 'Rooftop conversations at 2am',
         date: '2024-11-03',
-        location: 'Victoria Island, Lagos',
+        location: 'SIP AND PAINT OGUDU',
         caption: 'The city lights below us, your laughter above everything. Best night ever.',
         images: [
             'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=800&q=80',
@@ -44,10 +44,10 @@ export const memories: Memory[] = [
         season: 'autumn',
     },
     {
-        id: 'first-trip',
+        id: 'harvester-church',
         title: 'Our first trip together',
         date: '2024-03-22',
-        location: 'Calabar, Nigeria',
+        location: 'HARVESTER CHURCH LEKKI',
         caption: 'Two suitcases, one playlist, and zero plans. The best kind of adventure.',
         images: [
             'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&q=80',
@@ -60,10 +60,10 @@ export const memories: Memory[] = [
         season: 'spring',
     },
     {
-        id: 'cozy-sunday',
+        id: 'thompson-bubble-tea',
         title: 'Cozy Sundays are our thing',
         date: '2024-12-15',
-        location: 'Home',
+        location: 'THOMPSON BOBBLE TEA SHOP',
         caption: 'Matching socks, bad movies, and the best jollof rice argument of the year.',
         images: [
             'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=800&q=80',
@@ -74,10 +74,10 @@ export const memories: Memory[] = [
         season: 'winter',
     },
     {
-        id: 'birthday-surprise',
+        id: 'shu-gardens',
         title: 'The surprise that made you cry',
         date: '2024-07-20',
-        location: 'Ikeja, Lagos',
+        location: 'SHU GARDENS ONIRU',
         caption: 'I had to lie for two weeks straight to pull this off. Worth every single one.',
         images: [
             'https://images.unsplash.com/photo-1529543544282-ea57407bc2e3?w=800&q=80',

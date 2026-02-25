@@ -5,14 +5,14 @@ Drop your photos into the matching folder.
 
 ## Folder → Memory Map
 
-| Folder | Memory Title |
+| Folder | Location |
 |--------|-------------|
-| `beach-sunset/` | "That sunset we almost missed" |
-| `rooftop-night/` | "Rooftop conversations at 2am" |
-| `first-trip/` | "Our first trip together" |
-| `cozy-sunday/` | "Cozy Sundays are our thing" |
-| `birthday-surprise/` | "The surprise that made you cry" |
-| `random-wednesday/` | "That random Wednesday" |
+| `sino-mart/` | SINOMART SUPERMARKET, ONIRU |
+| `sip-and-paint/` | SIP AND PAINT OGUDU |
+| `harvester-church/` | HARVESTER CHURCH LEKKI |
+| `thompson-bubble-tea/` | THOMPSON BOBBLE TEA SHOP |
+| `shu-gardens/` | SHU GARDENS ONIRU |
+| `random-wednesday/` | That random Wednesday |
 
 ## Rules
 1. Name your files like `1.jpg`, `2.jpg`, `3.jpg` etc.
@@ -22,18 +22,18 @@ Drop your photos into the matching folder.
 5. After adding photos, update the `images` array in `src/lib/memories.ts`
 
 ## Example
-If you drop 3 photos into `beach-sunset/`:
+If you drop 3 photos into `sino-mart/`:
 ```
-public/memories/beach-sunset/1.jpg  ← cover
-public/memories/beach-sunset/2.jpg  ← gallery
-public/memories/beach-sunset/3.jpg  ← gallery
+public/memories/sino-mart/1.jpg  ← cover
+public/memories/sino-mart/2.jpg  ← gallery
+public/memories/sino-mart/3.jpg  ← gallery
 ```
 
 Then update `memories.ts`:
 ```ts
 images: [
-    '/memories/beach-sunset/1.jpg',
-    '/memories/beach-sunset/2.jpg',
-    '/memories/beach-sunset/3.jpg',
+    '/memories/sino-mart/1.jpg',
+    '/memories/sino-mart/2.jpg',
+    '/memories/sino-mart/3.jpg',
 ]
 ```
