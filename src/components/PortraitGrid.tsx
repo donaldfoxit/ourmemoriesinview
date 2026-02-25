@@ -125,28 +125,26 @@ function MemoryCard({
                 ))}
             </div>
 
-            {/* Polaroid-style label strip */}
-            <div className="absolute bottom-0 left-0 right-0 z-20 bg-[#faf8f5] px-4 py-3 md:px-5 md:py-4 rounded-b-xl">
-                <p className="font-[var(--font-caveat)] text-base md:text-lg text-[#2a2a2a] leading-snug truncate">
+            {/* Title + tags overlay — always visible, on the image */}
+            <div className="absolute bottom-0 left-0 right-0 z-20 p-5 md:p-6 bg-gradient-to-t from-black/80 via-black/50 to-transparent">
+                <h3 className="text-xl md:text-2xl font-bold text-white leading-tight">
                     {memory.title}
-                </p>
-                <p className="font-[var(--font-caveat)] text-xs md:text-sm text-[#8a8580] mt-0.5 flex items-center gap-1.5">
-                    <span>{memory.location}</span>
-                    <span className="text-[#c8a87c]">·</span>
-                    <span>{formatMemoryDate(memory.date)}</span>
-                </p>
-            </div>
+                </h3>
 
-            {/* Tags — visible on hover */}
-            <div className="absolute top-3 left-3 z-20 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                {memory.tags.slice(0, 2).map((tag) => (
-                    <span
-                        key={tag}
-                        className="px-2 py-0.5 text-[9px] tracking-wider uppercase rounded-full bg-white/15 backdrop-blur-sm text-white/80"
-                    >
-                        {tag}
+                {/* Tag pills */}
+                <div className="flex flex-wrap gap-1.5 mt-3">
+                    {memory.tags.map((tag) => (
+                        <span
+                            key={tag}
+                            className="px-3 py-1 text-[10px] tracking-wider uppercase rounded-full bg-white/10 backdrop-blur-sm text-white/80"
+                        >
+                            {tag}
+                        </span>
+                    ))}
+                    <span className="px-3 py-1 text-[10px] tracking-wider rounded-full bg-white/10 backdrop-blur-sm text-white/60 flex items-center gap-1">
+                        📍 {memory.location}
                     </span>
-                ))}
+                </div>
             </div>
         </motion.div>
     )
