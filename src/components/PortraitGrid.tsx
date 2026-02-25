@@ -90,64 +90,43 @@ export default function PortraitGrid({
 }) {
     const columnsRef = useRef<(HTMLDivElement | null)[]>([])
 
-    // Lenis Smooth Scroll Setup + Infinite Auto-Scroll
+    // Standard Parallax (No Auto-Drift)
     useEffect(() => {
         const lenis = new Lenis({
-            lerp: 0.05, // Heavy, expensive feel
+            lerp: 0.05,
             smoothWheel: true,
-            wheelMultiplier: 1.5, // Make manual scroll feel more responsive
+            wheelMultiplier: 1.2,
         })
-
-        let autoScrollOffset = 0
-        let lastTime = performance.now()
-        let rafId: number
 
         function raf(time: number) {
             lenis.raf(time)
 
-            // Calculate auto-drift delta
-            const dt = time - lastTime
-            lastTime = time
-
-            // Only add auto-scroll if the user isn't actively hijacking the scroll heavily
-            // (We check lenis velocity. If it's near zero, we drift. If they fling it, we let it fly).
-            // @ts-ignore - velocity exists on the lenis instance at runtime but may be missing from older type definitions
-            const isManuallyScrolling = Math.abs(lenis.velocity) > 0.5
-            if (!isManuallyScrolling) {
-                autoScrollOffset += dt * 0.035 // Adjust drift speed here
-            }
-
-            // The final "virtual scroll" is where they scrolled TO + the drift offset
-            // NOTE: lenis.scroll gives us the current manual scroll position.
-            const virtualScrollY = lenis.scroll + autoScrollOffset
-
+            // Subtle Parallax specific to the 2-row layout
+            const scrollY = window.scrollY
             columnsRef.current.forEach((col, i) => {
                 if (!col) return
                 const isUp = i % 2 === 0
-                const speed = 0.02 + i * 0.015
+                const speed = 0.05 + i * 0.02
                 const dir = isUp ? -1 : 1
 
-                const totalMove = virtualScrollY * speed * dir
+                const totalMove = scrollY * speed * dir
                 col.style.transform = `translateY(${totalMove}px)`
             })
 
-            rafId = requestAnimationFrame(raf)
+            requestAnimationFrame(raf)
         }
-        rafId = requestAnimationFrame(raf)
+        requestAnimationFrame(raf)
 
         return () => {
             lenis.destroy()
-            if (rafId) cancelAnimationFrame(rafId)
         }
     }, [])
 
-    // Split memories across 4 columns
+    // STRICT 4-Column, 2-Row layout (Exactly 8 cards total)
+    // Slice exactly 8 memories, then distribute them into 4 columns (2 per column)
+    const displayMemories = memories.slice(0, 8)
     const columns: Memory[][] = [[], [], [], []]
-    memories.forEach((m, i) => columns[i % 4].push(m))
-
-    // The user requested to "clean out the frames and leave just 6" per column
-    // This provides enough length for parallax without overloading the DOM.
-    const dupesMap = columns.map(col => Array(6).fill(col).flat())
+    displayMemories.forEach((m, i) => columns[i % 4].push(m))
 
     return (
         <section id="timeline" className="relative h-[150vh] md:h-[200vh] px-8 sm:px-12 md:px-24 lg:px-32 py-32 overflow-hidden bg-[var(--bg)] flex justify-center">
@@ -167,32 +146,27 @@ export default function PortraitGrid({
                 </div>
             </motion.div>
 
-            {/* 4-column infinite parallax grid (The Gallery Frames) */}
-            <div className="flex gap-4 md:gap-8 h-full w-full max-w-[1400px] z-10 relative">
+            {/* 4-column static parallax grid (exactly 2 rows) */}
+            <div className="flex gap-4 md:gap-8 min-h-[100vh] w-full max-w-[1400px] z-10 relative pt-32 pb-48">
                 {columns.map((col, colIndex) => {
-                    const isUp = colIndex % 2 === 0
+                    // Stagger the vertical starting position of alternating columns to create the asymmetrical grid feel
+                    const isOffset = colIndex % 2 !== 0
+
                     return (
                         <div
                             key={colIndex}
                             ref={(el) => { columnsRef.current[colIndex] = el }}
-                            className="flex-1 relative h-[200%] -top-[50%] will-change-transform"
+                            className={`flex-1 flex flex-col gap-8 md:gap-16 will-change-transform ${isOffset ? 'mt-32 md:mt-48' : ''}`}
                             style={{ transition: 'transform 0.1s linear' }}
                         >
-                            <motion.div
-                                className="absolute top-0 left-0 w-full flex flex-col gap-8 md:gap-16"
-                                animate={{ y: isUp ? ['0%', '-50%'] : ['-50%', '0%'] }}
-                                // Slowest column floats leisurely
-                                transition={{ repeat: Infinity, ease: 'linear', duration: 400 + colIndex * 50 }}
-                            >
-                                {dupesMap[colIndex].map((memory, i) => (
-                                    <MemoryCard
-                                        key={`${memory.id}-${i}`}
-                                        memory={memory}
-                                        index={colIndex * 4 + (i % col.length)}
-                                        onOpen={onOpenMemory}
-                                    />
-                                ))}
-                            </motion.div>
+                            {col.map((memory, i) => (
+                                <MemoryCard
+                                    key={`${memory.id}-${i}`}
+                                    memory={memory}
+                                    index={colIndex + i * 4}
+                                    onOpen={onOpenMemory}
+                                />
+                            ))}
                         </div>
                     )
                 })}
