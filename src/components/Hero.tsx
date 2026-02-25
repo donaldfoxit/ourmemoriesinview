@@ -51,6 +51,20 @@ export default function Hero() {
 
     return (
         <section className="relative h-screen flex items-end pb-24 md:pb-32 px-8 md:px-14 overflow-hidden">
+            {/* Cinematic Background Image */}
+            <div className="absolute inset-0 z-0 select-none pointer-events-none">
+                {/* Fallback color if image is missing */}
+                <div className="absolute inset-0 bg-black" />
+                <img
+                    src="/hero-bg.jpg"
+                    alt="Hero Background"
+                    className="absolute inset-0 w-full h-full object-cover object-center opacity-60 mix-blend-screen transition-opacity duration-1000"
+                />
+                {/* Vignette and blend gradients */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-transparent opacity-80" />
+                <div className="absolute inset-0 bg-black/20" />
+            </div>
             {/* Ambient glow */}
             <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] bg-[var(--accent)] rounded-full opacity-[0.03] blur-[180px] pointer-events-none" />
 

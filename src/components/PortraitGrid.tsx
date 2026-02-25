@@ -126,7 +126,7 @@ function MemoryCard({
             </div>
 
             {/* Title + tags overlay — centered on card */}
-            <div className="absolute inset-0 z-20 flex flex-col justify-center items-start px-6 md:px-8 bg-gradient-to-t from-black/70 via-black/40 to-black/10">
+            <div className="absolute inset-0 z-20 flex flex-col justify-end items-start p-6 md:p-8 pb-8 md:pb-10 bg-gradient-to-t from-black/80 via-black/30 to-transparent">
                 <h3 className="text-3xl md:text-5xl text-white leading-[1.1]" style={{ fontFamily: 'var(--font-dancing)' }}>
                     {memory.title}
                 </h3>
