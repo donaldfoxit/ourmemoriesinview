@@ -52,9 +52,9 @@ export default function Hero() {
 
             {/* Content — centered */}
             <div className="relative z-10 flex flex-col items-center text-center px-8">
-                {/* Horizontal Film Strip — Made extremely minimal */}
+                {/* Horizontal Film Strip — Made extremely minimal with clear margins */}
                 <motion.div
-                    className="mb-8 relative w-[100vw] md:w-[50vw] max-w-2xl h-16 md:h-20 overflow-hidden"
+                    className="mb-8 relative w-[calc(100vw-48px)] md:w-[50vw] max-w-2xl h-16 md:h-20 overflow-hidden"
                     variants={fadeUp}
                     initial="hidden"
                     animate="visible"

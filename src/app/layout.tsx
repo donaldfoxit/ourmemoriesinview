@@ -32,8 +32,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${caveat.variable} ${dancing.variable}`}>
-      <body className="font-sans">
+      <body className="font-sans relative">
         <div className="grain" />
+
+        {/* Global Cinematic Viewfinder Frame */}
+        <div className="fixed inset-4 md:inset-6 z-[9999] pointer-events-none border border-white/[0.08] rounded-2xl mix-blend-overlay" />
+        {/* Inner thin glow to the frame */}
+        <div className="fixed inset-4 md:inset-6 z-[9999] pointer-events-none border border-[var(--accent)] opacity-[0.03] rounded-2xl" />
+
         {children}
       </body>
     </html>
