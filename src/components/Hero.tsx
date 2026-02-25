@@ -1,0 +1,132 @@
+'use client'
+
+import { motion } from 'framer-motion'
+
+const headlineVariants = {
+    hidden: {},
+    visible: {
+        transition: {
+            staggerChildren: 0.15,
+            delayChildren: 0.4,
+        },
+    },
+}
+
+const wordVariant = {
+    hidden: { y: '110%', rotateX: -30 },
+    visible: {
+        y: '0%',
+        rotateX: 0,
+        transition: {
+            duration: 1.1,
+            ease: [0.23, 1, 0.32, 1] as const,
+        },
+    },
+}
+
+const fadeUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: (delay: number) => ({
+        opacity: 1,
+        y: 0,
+        transition: {
+            duration: 0.9,
+            delay,
+            ease: [0.23, 1, 0.32, 1] as const,
+        },
+    }),
+}
+
+export default function Hero() {
+    return (
+        <section className="relative h-screen flex items-end pb-24 md:pb-32 px-8 md:px-14 overflow-hidden">
+            {/* Ambient glow — very subtle warm light */}
+            <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] bg-[var(--accent)] rounded-full opacity-[0.03] blur-[180px] pointer-events-none" />
+
+            <div className="relative z-10 max-w-4xl">
+                {/* Eyebrow */}
+                <motion.p
+                    className="text-xs md:text-sm tracking-[0.4em] uppercase text-[var(--muted)] mb-6 md:mb-8"
+                    variants={fadeUp}
+                    initial="hidden"
+                    animate="visible"
+                    custom={0.2}
+                >
+                    Elite Creative Studio
+                </motion.p>
+
+                {/* Headline with per-word overflow-hidden reveal */}
+                <motion.h1
+                    className="text-[clamp(2.8rem,8vw,7rem)] font-extrabold leading-[0.9] tracking-tight"
+                    variants={headlineVariants}
+                    initial="hidden"
+                    animate="visible"
+                >
+                    {['Build', 'Your'].map((word, i) => (
+                        <span key={i} className="inline-block overflow-hidden mr-[0.25em]">
+                            <motion.span className="inline-block" variants={wordVariant}>
+                                {word}
+                            </motion.span>
+                        </span>
+                    ))}
+                    <br />
+                    <span className="inline-block overflow-hidden">
+                        <motion.span className="inline-block hero-shimmer" variants={wordVariant}>
+                            Creative Legend
+                        </motion.span>
+                    </span>
+                </motion.h1>
+
+                {/* Supporting copy */}
+                <motion.p
+                    className="mt-8 md:mt-10 text-sm md:text-base leading-relaxed text-[var(--muted)] max-w-md"
+                    variants={fadeUp}
+                    initial="hidden"
+                    animate="visible"
+                    custom={1.0}
+                >
+                    Elite mentorship in animation, VFX, and compositing.
+                    We shape the next generation of creative visionaries.
+                </motion.p>
+
+                {/* CTA */}
+                <motion.div
+                    className="mt-8 md:mt-10 flex items-center gap-6"
+                    variants={fadeUp}
+                    initial="hidden"
+                    animate="visible"
+                    custom={1.3}
+                >
+                    <button className="bg-[var(--accent)] text-black px-8 py-3 rounded-full text-sm font-semibold tracking-wide uppercase hover:brightness-110 transition-all duration-300 hover:scale-[1.03] active:scale-[0.97]">
+                        Get Started
+                    </button>
+                    <span className="text-xs tracking-[0.3em] uppercase text-[var(--muted)] cursor-pointer hover:text-[var(--fg)] transition-colors duration-300">
+                        Learn More ↓
+                    </span>
+                </motion.div>
+            </div>
+
+            {/* Scroll indicator */}
+            <motion.div
+                className="absolute bottom-8 right-8 md:right-14 flex flex-col items-center gap-3"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 2, duration: 1 }}
+            >
+                <span className="text-[10px] tracking-[0.3em] uppercase text-[var(--muted)] [writing-mode:vertical-lr]">
+                    Scroll
+                </span>
+                <motion.div
+                    className="w-[1px] h-10 bg-white/20 relative overflow-hidden"
+                    initial={{}}
+                >
+                    <motion.div
+                        className="absolute top-0 left-0 w-full bg-[var(--accent)]"
+                        animate={{ height: ['0%', '100%', '0%'], top: ['0%', '0%', '100%'] }}
+                        transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                    />
+                </motion.div>
+            </motion.div>
+        </section>
+    )
+}
