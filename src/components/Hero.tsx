@@ -1,6 +1,9 @@
 'use client'
-import { motion } from 'framer-motion'
+
+import { motion, AnimatePresence } from 'framer-motion'
+import { useEffect, useState } from 'react'
 import Fireflies from './Fireflies'
+import { memories } from '@/lib/memories'
 
 const fadeUp = {
     hidden: { opacity: 0, y: 30 },
@@ -16,6 +19,19 @@ const fadeUp = {
 }
 
 export default function Hero() {
+    const [currentImage, setCurrentImage] = useState(0)
+
+    // Collect all cover images (first image from each memory)
+    const coverImages = memories.map(m => m.images[0])
+
+    // Cycle through cover images every 4 seconds
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentImage(prev => (prev + 1) % coverImages.length)
+        }, 4000)
+        return () => clearInterval(interval)
+    }, [coverImages.length])
+
     const scrollToGrid = () => {
         const grid = document.getElementById('memory-grid')
         if (grid) grid.scrollIntoView({ behavior: 'smooth' })
@@ -43,22 +59,49 @@ export default function Hero() {
 
             {/* Content — centered */}
             <div className="relative z-10 flex flex-col items-center text-center px-8">
-                {/* Small framed Ghibli art */}
+                {/* Animated photo frame — cycles through memory covers */}
                 <motion.div
-                    className="mb-10 md:mb-14"
+                    className="mb-10 md:mb-14 relative"
                     variants={fadeUp}
                     initial="hidden"
                     animate="visible"
                     custom={0.2}
                 >
-                    <div className="relative w-48 h-48 md:w-64 md:h-64 overflow-hidden shadow-2xl border border-white/10">
-                        <img
-                            src="/hero-bg.jpg"
-                            alt="Our Memories"
-                            className="w-full h-full object-cover"
-                        />
-                        {/* Subtle warm glow behind the frame */}
-                        <div className="absolute -inset-4 bg-[var(--accent)] opacity-[0.08] blur-3xl -z-10 rounded-full" />
+                    {/* Warm glow behind frame */}
+                    <div className="absolute -inset-6 bg-[var(--accent)] opacity-[0.08] blur-3xl rounded-full" />
+
+                    {/* The frame itself */}
+                    <motion.div
+                        className="relative w-52 h-52 md:w-72 md:h-72 overflow-hidden shadow-2xl border border-white/10"
+                        animate={{ rotateY: [0, 2, 0, -2, 0] }}
+                        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+                    >
+                        <AnimatePresence mode="wait">
+                            <motion.img
+                                key={currentImage}
+                                src={coverImages[currentImage]}
+                                alt="Memory preview"
+                                className="w-full h-full object-cover"
+                                initial={{ opacity: 0, scale: 1.1 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.95 }}
+                                transition={{ duration: 1.2, ease: [0.23, 1, 0.32, 1] }}
+                            />
+                        </AnimatePresence>
+
+                        {/* Subtle inner border glow */}
+                        <div className="absolute inset-0 border border-white/5" />
+                    </motion.div>
+
+                    {/* Image count dots */}
+                    <div className="flex justify-center gap-1.5 mt-4">
+                        {coverImages.map((_, i) => (
+                            <div
+                                key={i}
+                                className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${i === currentImage ? 'bg-[var(--accent)] scale-125' : 'bg-white/20'
+                                    }`}
+                            />
+                        ))}
                     </div>
                 </motion.div>
 
@@ -86,16 +129,20 @@ export default function Hero() {
                     A living gallery of the moments that made us, us.
                 </motion.p>
 
-                {/* View Memories button */}
+                {/* View Memories button — redesigned as a prominent, glowing CTA */}
                 <motion.button
                     onClick={scrollToGrid}
-                    className="mt-10 md:mt-14 px-8 py-3 text-xs tracking-[0.3em] uppercase font-semibold text-[var(--fg)] border border-white/15 bg-white/5 backdrop-blur-sm hover:bg-[var(--accent)] hover:text-black hover:border-[var(--accent)] transition-all duration-500 hover:scale-[1.04] active:scale-[0.97]"
+                    className="mt-10 md:mt-14 group relative px-10 py-4 text-sm tracking-[0.2em] uppercase font-bold overflow-hidden"
                     variants={fadeUp}
                     initial="hidden"
                     animate="visible"
                     custom={1.1}
                 >
-                    View Memories
+                    {/* Animated gradient background */}
+                    <div className="absolute inset-0 bg-[var(--accent)] transition-transform duration-500 group-hover:scale-105" />
+                    {/* Shine sweep on hover */}
+                    <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/25 to-transparent" />
+                    <span className="relative z-10 text-black">View Memories</span>
                 </motion.button>
             </div>
         </section>
