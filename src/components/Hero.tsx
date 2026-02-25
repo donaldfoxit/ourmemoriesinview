@@ -52,9 +52,9 @@ export default function Hero() {
 
             {/* Content — centered */}
             <div className="relative z-10 flex flex-col items-center text-center px-8">
-                {/* Horizontal Film Strip */}
+                {/* Horizontal Film Strip — Made smaller and shorter as requested */}
                 <motion.div
-                    className="mb-10 md:mb-14 relative w-[120vw] md:w-[80vw] max-w-5xl h-32 md:h-48 overflow-hidden"
+                    className="mb-6 md:mb-8 relative w-[100vw] md:w-[60vw] max-w-3xl h-24 md:h-32 overflow-hidden"
                     variants={fadeUp}
                     initial="hidden"
                     animate="visible"
@@ -67,7 +67,7 @@ export default function Hero() {
                         transition={{ repeat: Infinity, ease: 'linear', duration: 40 }}
                     >
                         {filmStripImages.map((src, i) => (
-                            <div key={i} className="relative w-40 md:w-64 h-full shrink-0">
+                            <div key={i} className="relative w-32 md:w-48 h-full shrink-0">
                                 <img
                                     src={src}
                                     alt="Memory"
