@@ -127,7 +127,7 @@ function MemoryCard({
 
             {/* Title + tags overlay — always visible, on the image */}
             <div className="absolute bottom-0 left-0 right-0 z-20 p-5 md:p-6 bg-gradient-to-t from-black/80 via-black/50 to-transparent">
-                <h3 className="text-xl md:text-2xl font-bold text-white leading-tight">
+                <h3 className="font-[var(--font-dancing)] text-2xl md:text-3xl text-white leading-snug">
                     {memory.title}
                 </h3>
 
