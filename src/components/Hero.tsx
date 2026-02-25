@@ -1,6 +1,11 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
+import { daysSince } from '@/lib/memories'
+
+// ── Set your anniversary date here ──
+const ANNIVERSARY_DATE = '2023-10-12'
 
 const headlineVariants = {
     hidden: {},
@@ -38,12 +43,18 @@ const fadeUp = {
 }
 
 export default function Hero() {
+    const [days, setDays] = useState(0)
+
+    useEffect(() => {
+        setDays(daysSince(ANNIVERSARY_DATE))
+    }, [])
+
     return (
         <section className="relative h-screen flex items-end pb-24 md:pb-32 px-8 md:px-14 overflow-hidden">
-            {/* Ambient glow — very subtle warm light */}
+            {/* Ambient glow */}
             <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] bg-[var(--accent)] rounded-full opacity-[0.03] blur-[180px] pointer-events-none" />
 
-            <div className="relative z-10 max-w-4xl">
+            <div className="relative z-10 max-w-5xl">
                 {/* Eyebrow */}
                 <motion.p
                     className="text-xs md:text-sm tracking-[0.4em] uppercase text-[var(--muted)] mb-6 md:mb-8"
@@ -52,17 +63,17 @@ export default function Hero() {
                     animate="visible"
                     custom={0.2}
                 >
-                    Elite Creative Studio
+                    A living gallery
                 </motion.p>
 
-                {/* Headline with per-word overflow-hidden reveal */}
+                {/* Headline */}
                 <motion.h1
                     className="text-[clamp(2.8rem,8vw,7rem)] font-extrabold leading-[0.9] tracking-tight"
                     variants={headlineVariants}
                     initial="hidden"
                     animate="visible"
                 >
-                    {['Build', 'Your'].map((word, i) => (
+                    {['Our', 'Memories'].map((word, i) => (
                         <span key={i} className="inline-block overflow-hidden mr-[0.25em]">
                             <motion.span className="inline-block" variants={wordVariant}>
                                 {word}
@@ -72,37 +83,46 @@ export default function Hero() {
                     <br />
                     <span className="inline-block overflow-hidden">
                         <motion.span className="inline-block hero-shimmer" variants={wordVariant}>
-                            Creative Legend
+                            In View
                         </motion.span>
                     </span>
                 </motion.h1>
 
-                {/* Supporting copy */}
+                {/* Caption */}
                 <motion.p
-                    className="mt-8 md:mt-10 text-sm md:text-base leading-relaxed text-[var(--muted)] max-w-md"
+                    className="mt-8 md:mt-10 text-sm md:text-base leading-relaxed text-[var(--muted)] max-w-md font-[var(--font-caveat)] text-lg md:text-xl"
                     variants={fadeUp}
                     initial="hidden"
                     animate="visible"
                     custom={1.0}
                 >
-                    Elite mentorship in animation, VFX, and compositing.
-                    We shape the next generation of creative visionaries.
+                    Every frame a heartbeat. Every memory a world
+                    built from time. This is our story.
                 </motion.p>
 
-                {/* CTA */}
+                {/* Anniversary counter + CTA */}
                 <motion.div
-                    className="mt-8 md:mt-10 flex items-center gap-6"
+                    className="mt-8 md:mt-10 flex items-center gap-8"
                     variants={fadeUp}
                     initial="hidden"
                     animate="visible"
                     custom={1.3}
                 >
+                    {/* Anniversary counter */}
+                    <div className="flex flex-col">
+                        <span className="text-3xl md:text-5xl font-extrabold text-[var(--accent)] tabular-nums">
+                            {days}
+                        </span>
+                        <span className="text-[10px] md:text-xs tracking-[0.3em] uppercase text-[var(--muted)] mt-1">
+                            Days of Us
+                        </span>
+                    </div>
+
+                    <div className="w-px h-12 bg-white/10" />
+
                     <button className="bg-[var(--accent)] text-black px-8 py-3 rounded-full text-sm font-semibold tracking-wide uppercase hover:brightness-110 transition-all duration-300 hover:scale-[1.03] active:scale-[0.97]">
-                        Get Started
+                        Explore
                     </button>
-                    <span className="text-xs tracking-[0.3em] uppercase text-[var(--muted)] cursor-pointer hover:text-[var(--fg)] transition-colors duration-300">
-                        Learn More ↓
-                    </span>
                 </motion.div>
             </div>
 
@@ -116,10 +136,7 @@ export default function Hero() {
                 <span className="text-[10px] tracking-[0.3em] uppercase text-[var(--muted)] [writing-mode:vertical-lr]">
                     Scroll
                 </span>
-                <motion.div
-                    className="w-[1px] h-10 bg-white/20 relative overflow-hidden"
-                    initial={{}}
-                >
+                <motion.div className="w-[1px] h-10 bg-white/20 relative overflow-hidden">
                     <motion.div
                         className="absolute top-0 left-0 w-full bg-[var(--accent)]"
                         animate={{ height: ['0%', '100%', '0%'], top: ['0%', '0%', '100%'] }}

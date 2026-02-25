@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, Caveat } from 'next/font/google'
 import './globals.css'
 
 const inter = Inter({
@@ -8,9 +8,15 @@ const inter = Inter({
   display: 'swap',
 })
 
+const caveat = Caveat({
+  subsets: ['latin'],
+  variable: '--font-caveat',
+  display: 'swap',
+})
+
 export const metadata: Metadata = {
-  title: 'Legend Creative — Elite Mentorship',
-  description: 'Elite mentorship in animation, VFX, and compositing. Build your creative legend.',
+  title: 'Our Memories In View',
+  description: 'A living gallery of the moments that made us, us.',
 }
 
 export default function RootLayout({
@@ -19,9 +25,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={`${inter.variable} ${caveat.variable}`}>
       <body className="font-sans">
-        {/* Film grain overlay — always on top */}
         <div className="grain" />
         {children}
       </body>

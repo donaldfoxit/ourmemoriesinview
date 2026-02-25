@@ -1,77 +1,161 @@
 'use client'
 
-import { useEffect, useRef, useCallback } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { motion, useInView } from 'framer-motion'
 import Lenis from 'lenis'
+import { memories, formatMemoryDate, type Memory } from '@/lib/memories'
 
-const images = [
-    'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&q=80',
-    'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=80',
-    'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&q=80',
-    'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=600&q=80',
-    'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&q=80',
-    'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?w=600&q=80',
-    'https://images.unsplash.com/photo-1541534401786-2077eed87a74?w=600&q=80',
-    'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=600&q=80',
-    'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=600&q=80',
-]
+// ── Season color tints ──
+const seasonTint: Record<string, string> = {
+    spring: 'rgba(144, 238, 144, 0.08)',
+    summer: 'rgba(255, 193, 7, 0.08)',
+    autumn: 'rgba(210, 105, 30, 0.08)',
+    winter: 'rgba(135, 206, 235, 0.08)',
+}
 
-function PortraitCard({ src, index }: { src: string; index: number }) {
+function MemoryCard({
+    memory,
+    index,
+    onOpen,
+}: {
+    memory: Memory
+    index: number
+    onOpen: (memory: Memory) => void
+}) {
     const cardRef = useRef<HTMLDivElement>(null)
     const isInView = useInView(cardRef, { once: true, margin: '-50px' })
+    const [currentImageIndex, setCurrentImageIndex] = useState(0)
+    const flipIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
-    // 3D tilt on mouse interaction
+    // ── Flipbook hover ──
+    const startFlipbook = useCallback(() => {
+        if (memory.images.length <= 1) return
+        let idx = 0
+        flipIntervalRef.current = setInterval(() => {
+            idx = (idx + 1) % memory.images.length
+            setCurrentImageIndex(idx)
+        }, 350)
+    }, [memory.images])
+
+    const stopFlipbook = useCallback(() => {
+        if (flipIntervalRef.current) {
+            clearInterval(flipIntervalRef.current)
+            flipIntervalRef.current = null
+        }
+        setCurrentImageIndex(0)
+    }, [])
+
+    // ── Magnetic Cursor + 3D Tilt ──
     const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
         const card = cardRef.current
         if (!card) return
-
         const rect = card.getBoundingClientRect()
         const x = e.clientX - rect.left
         const y = e.clientY - rect.top
         const centerX = rect.width / 2
         const centerY = rect.height / 2
-
         const rotateX = -(y - centerY) / 18
         const rotateY = (x - centerX) / 18
-
-        card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`
+        // Magnetic pull: slight translate toward cursor
+        const pullX = (x - centerX) / 25
+        const pullY = (y - centerY) / 25
+        card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateX(${pullX}px) translateY(${pullY}px) scale(1.03)`
     }, [])
 
     const handleMouseLeave = useCallback(() => {
         const card = cardRef.current
         if (!card) return
         card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) scale(1)'
+        stopFlipbook()
+    }, [stopFlipbook])
+
+    const handleMouseEnter = useCallback(() => {
+        startFlipbook()
+    }, [startFlipbook])
+
+    // Cleanup
+    useEffect(() => {
+        return () => {
+            if (flipIntervalRef.current) clearInterval(flipIntervalRef.current)
+        }
     }, [])
 
     return (
         <motion.div
             ref={cardRef}
-            className="portrait-card"
+            className="portrait-card group cursor-pointer"
             initial={{ opacity: 0, y: 60 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
             transition={{
                 duration: 0.9,
                 delay: index * 0.12,
-                ease: [0.23, 1, 0.32, 1],
+                ease: [0.23, 1, 0.32, 1] as const,
             }}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
+            onMouseEnter={handleMouseEnter}
+            onClick={() => onOpen(memory)}
         >
+            {/* Season color overlay */}
+            <div
+                className="absolute inset-0 z-10 pointer-events-none rounded-xl"
+                style={{ background: seasonTint[memory.season] || 'transparent' }}
+            />
+
+            {/* Image with flipbook cycling */}
             <img
-                src={src}
-                alt={`Portrait ${index + 1}`}
+                src={memory.images[currentImageIndex]}
+                alt={memory.title}
                 loading="lazy"
                 draggable={false}
+                className="w-full h-full object-cover"
             />
+
+            {/* Image count indicator */}
+            <div className="absolute top-3 right-3 z-20 flex gap-1">
+                {memory.images.map((_, i) => (
+                    <div
+                        key={i}
+                        className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${i === currentImageIndex ? 'bg-white scale-125' : 'bg-white/40'
+                            }`}
+                    />
+                ))}
+            </div>
+
+            {/* Caption overlay — handwritten font */}
+            <div className="absolute bottom-0 left-0 right-0 z-20 p-4 md:p-5 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <p className="font-[var(--font-caveat)] text-lg md:text-xl text-white leading-relaxed">
+                    {memory.title}
+                </p>
+                <p className="text-[10px] tracking-[0.2em] uppercase text-white/50 mt-1">
+                    {memory.location} · {formatMemoryDate(memory.date)}
+                </p>
+            </div>
+
+            {/* Tags */}
+            <div className="absolute top-3 left-3 z-20 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                {memory.tags.slice(0, 2).map((tag) => (
+                    <span
+                        key={tag}
+                        className="px-2 py-0.5 text-[9px] tracking-wider uppercase rounded-full bg-white/15 backdrop-blur-sm text-white/80"
+                    >
+                        {tag}
+                    </span>
+                ))}
+            </div>
         </motion.div>
     )
 }
 
-export default function PortraitGrid() {
+// ── PortraitGrid ──
+export default function PortraitGrid({
+    onOpenMemory,
+}: {
+    onOpenMemory: (memory: Memory) => void
+}) {
     const columnsRef = useRef<(HTMLDivElement | null)[]>([])
 
     useEffect(() => {
-        // Lenis smooth scroll instance
         const lenis = new Lenis({ lerp: 0.08 })
 
         function raf(time: number) {
@@ -80,7 +164,6 @@ export default function PortraitGrid() {
         }
         requestAnimationFrame(raf)
 
-        // Parallax column drift on scroll
         const handleScroll = () => {
             const scrollY = window.scrollY
             columnsRef.current.forEach((col, i) => {
@@ -91,19 +174,15 @@ export default function PortraitGrid() {
         }
 
         window.addEventListener('scroll', handleScroll, { passive: true })
-
         return () => {
             lenis.destroy()
             window.removeEventListener('scroll', handleScroll)
         }
     }, [])
 
-    // Split images across 3 columns
-    const columns = [
-        images.slice(0, 3),
-        images.slice(3, 6),
-        images.slice(6, 9),
-    ]
+    // Split memories across 3 columns
+    const columns: Memory[][] = [[], [], []]
+    memories.forEach((m, i) => columns[i % 3].push(m))
 
     return (
         <section className="relative min-h-[220vh] px-6 md:px-14 py-32 overflow-hidden">
@@ -113,15 +192,15 @@ export default function PortraitGrid() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-100px' }}
-                transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
+                transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] as const }}
             >
                 <p className="text-xs tracking-[0.4em] uppercase text-[var(--muted)] mb-3">
-                    Our Legends
+                    The Collection
                 </p>
                 <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
-                    The Faces Behind
+                    Moments That
                     <br />
-                    <span className="text-[var(--accent)]">The Craft</span>
+                    <span className="text-[var(--accent)]">Made Us</span>
                 </h2>
             </motion.div>
 
@@ -134,11 +213,12 @@ export default function PortraitGrid() {
                         className="flex-1 flex flex-col gap-6 md:gap-10 will-change-transform"
                         style={{ transition: 'transform 0.1s linear' }}
                     >
-                        {col.map((src, i) => (
-                            <PortraitCard
-                                key={`${colIndex}-${i}`}
-                                src={src}
+                        {col.map((memory, i) => (
+                            <MemoryCard
+                                key={memory.id}
+                                memory={memory}
                                 index={colIndex * 3 + i}
+                                onOpen={onOpenMemory}
                             />
                         ))}
                     </div>
