@@ -52,10 +52,10 @@ function MemoryCard({
             <div className="absolute inset-0 bg-[var(--accent)] mix-blend-multiply opacity-40 transition-opacity duration-700 group-hover:opacity-0 pointer-events-none" />
 
             {/* Subtle Vignette for depth */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 opacity-80 group-hover:opacity-40 transition-opacity duration-700 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[var(--accent)]/60 via-transparent to-[var(--accent)]/20 opacity-80 group-hover:opacity-40 transition-opacity duration-700 pointer-events-none" />
 
             {/* Hover Tint - vanishes on hover (Lightened for bright theme) */}
-            <div className="absolute inset-0 bg-[var(--fg)]/10 transition-colors duration-700 group-hover:bg-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-[var(--accent)]/15 transition-colors duration-700 group-hover:bg-transparent pointer-events-none" />
 
             {/* Internal Frame Border */}
             <div className="absolute inset-2 border border-[var(--fg)]/10 pointer-events-none" />
