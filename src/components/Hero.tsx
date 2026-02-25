@@ -19,8 +19,26 @@ export default function Hero() {
     return (
         <section className="relative w-full h-[100dvh] flex flex-col items-center justify-center overflow-hidden">
 
+            {/* Full-bleed Background Image with Editorial Fade */}
+            <motion.div
+                className="absolute inset-0 z-0 pointer-events-none"
+                initial={{ opacity: 0, filter: 'blur(20px)', scale: 1.05 }}
+                animate={{ opacity: 1, filter: 'blur(0px)', scale: 1 }}
+                transition={{ duration: 3, ease: 'easeOut' }}
+            >
+                <img
+                    src="/memories/sino-mart/1.webp"
+                    alt="Hero Background"
+                    className="w-full h-full object-cover filter grayscale-[30%] contrast-110 object-top"
+                    style={{ opacity: 0.15, mixBlendMode: 'luminosity' }}
+                />
+                {/* Master gradients to softly blend the photo into the Museum Paper background */}
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[var(--bg)] opacity-90" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[var(--bg)] via-transparent to-[var(--bg)] opacity-70" />
+            </motion.div>
+
             {/* Extremely subtle ambient glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[var(--accent)] rounded-full opacity-[0.03] blur-[150px] pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[var(--accent)] rounded-full opacity-[0.05] blur-[150px] pointer-events-none" />
 
             {/* Content Container */}
             <div className="relative z-10 flex flex-col items-center text-center px-4 w-full">

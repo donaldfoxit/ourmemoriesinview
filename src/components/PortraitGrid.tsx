@@ -44,8 +44,15 @@ function MemoryCard({
             <img
                 src={memory.images[imgIndex]}
                 alt={memory.title}
-                className="w-full h-full object-cover filter brightness-[0.95] contrast-[1.05] grayscale-[0.3] transition-all duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105 group-hover:brightness-100 group-hover:grayscale-0"
+                className="w-full h-full object-cover filter brightness-110 contrast-125 transition-all duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105 group-hover:brightness-100 group-hover:contrast-100"
             />
+
+            {/* Themed Duotone Overlay (Amber/Sepia) - reveals original on hover */}
+            <div className="absolute inset-0 bg-[var(--accent)] mix-blend-color opacity-100 transition-opacity duration-700 group-hover:opacity-0 pointer-events-none" />
+            <div className="absolute inset-0 bg-[var(--accent)] mix-blend-multiply opacity-40 transition-opacity duration-700 group-hover:opacity-0 pointer-events-none" />
+
+            {/* Subtle Vignette for depth */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 opacity-80 group-hover:opacity-40 transition-opacity duration-700 pointer-events-none" />
 
             {/* Hover Tint - vanishes on hover (Lightened for bright theme) */}
             <div className="absolute inset-0 bg-[var(--fg)]/10 transition-colors duration-700 group-hover:bg-transparent pointer-events-none" />
@@ -87,37 +94,45 @@ export default function PortraitGrid({
 }) {
     const columnsRef = useRef<(HTMLDivElement | null)[]>([])
 
-    // Lenis Smooth Scroll Setup
+    // Lenis Smooth Scroll Setup + Infinite Auto-Scroll
     useEffect(() => {
         const lenis = new Lenis({
             lerp: 0.05, // Heavy, expensive feel
             smoothWheel: true,
         })
 
+        let autoScroll = 0
+        let lastTime = performance.now()
+        let rafId: number
+
         function raf(time: number) {
             lenis.raf(time)
-            requestAnimationFrame(raf)
-        }
-        requestAnimationFrame(raf)
 
-        // Parallax Logic
-        const handleScroll = () => {
+            // Auto-drift logic: slow, continuous movement
+            const dt = time - lastTime
+            autoScroll += dt * 0.035 // Adjust speed here
+            lastTime = time
+
+            // Parallax Logic combined with Auto-drift
             const scrollY = window.scrollY
             columnsRef.current.forEach((col, i) => {
                 if (!col) return
-                // Alternate directions: Up, Down, Up, Down
                 const isUp = i % 2 === 0
-                // Very slow, weighty parallax speed
                 const speed = 0.02 + i * 0.015
                 const dir = isUp ? -1 : 1
-                col.style.transform = `translateY(${scrollY * speed * dir}px)`
-            })
-        }
 
-        window.addEventListener('scroll', handleScroll, { passive: true })
+                // Final translation is the user's manual scroll + automatic drift
+                const totalMove = (scrollY + autoScroll) * speed * dir
+                col.style.transform = `translateY(${totalMove}px)`
+            })
+
+            rafId = requestAnimationFrame(raf)
+        }
+        rafId = requestAnimationFrame(raf)
+
         return () => {
             lenis.destroy()
-            window.removeEventListener('scroll', handleScroll)
+            if (rafId) cancelAnimationFrame(rafId)
         }
     }, [])
 
@@ -125,8 +140,9 @@ export default function PortraitGrid({
     const columns: Memory[][] = [[], [], [], []]
     memories.forEach((m, i) => columns[i % 4].push(m))
 
-    // Duplicate heavily for infinite scroll illusion
-    const dupesMap = columns.map(col => [...col, ...col, ...col, ...col, ...col, ...col])
+    // Duplicate EXTREMELY heavily for true infinite auto-scroll illusion 
+    // (enough cards to drift for a very long time without running out)
+    const dupesMap = columns.map(col => Array(25).fill(col).flat())
 
     return (
         <section id="timeline" className="relative h-[150vh] md:h-[200vh] px-8 sm:px-12 md:px-24 lg:px-32 py-32 overflow-hidden bg-[var(--bg)] flex justify-center">
