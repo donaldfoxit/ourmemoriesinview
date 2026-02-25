@@ -27,14 +27,17 @@ function MemoryCard({
     const [currentImageIndex, setCurrentImageIndex] = useState(0)
     const flipIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
-    // ── Flipbook hover ──
+    // ── Flipbook hover — instant start, fast cycle ──
     const startFlipbook = useCallback(() => {
         if (memory.images.length <= 1) return
         let idx = 0
+        // Immediately show next image on hover
+        idx = 1
+        setCurrentImageIndex(idx)
         flipIntervalRef.current = setInterval(() => {
             idx = (idx + 1) % memory.images.length
             setCurrentImageIndex(idx)
-        }, 350)
+        }, 150)
     }, [memory.images])
 
     const stopFlipbook = useCallback(() => {
@@ -122,18 +125,20 @@ function MemoryCard({
                 ))}
             </div>
 
-            {/* Caption overlay — handwritten font */}
-            <div className="absolute bottom-0 left-0 right-0 z-20 p-4 md:p-5 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                <p className="font-[var(--font-caveat)] text-lg md:text-xl text-white leading-relaxed">
+            {/* Always-visible label — location & date */}
+            <div className="absolute bottom-0 left-0 right-0 z-20 p-4 md:p-5 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+                <p className="font-[var(--font-caveat)] text-lg md:text-xl text-white leading-snug">
                     {memory.title}
                 </p>
-                <p className="text-[10px] tracking-[0.2em] uppercase text-white/50 mt-1">
-                    {memory.location} · {formatMemoryDate(memory.date)}
+                <p className="text-[10px] tracking-[0.15em] uppercase text-white/50 mt-1.5 flex items-center gap-2">
+                    <span>📍 {memory.location}</span>
+                    <span className="w-[3px] h-[3px] rounded-full bg-white/30" />
+                    <span>{formatMemoryDate(memory.date)}</span>
                 </p>
             </div>
 
-            {/* Tags */}
-            <div className="absolute top-3 left-3 z-20 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+            {/* Tags — visible on hover */}
+            <div className="absolute top-3 left-3 z-20 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 {memory.tags.slice(0, 2).map((tag) => (
                     <span
                         key={tag}
