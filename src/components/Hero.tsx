@@ -52,9 +52,9 @@ export default function Hero() {
 
             {/* Content — centered */}
             <div className="relative z-10 flex flex-col items-center text-center px-8">
-                {/* Horizontal Film Strip — Made smaller and shorter as requested */}
+                {/* Horizontal Film Strip — Made extremely minimal */}
                 <motion.div
-                    className="mb-6 md:mb-8 relative w-[100vw] md:w-[60vw] max-w-3xl h-24 md:h-32 overflow-hidden"
+                    className="mb-8 relative w-[100vw] md:w-[50vw] max-w-2xl h-16 md:h-20 overflow-hidden"
                     variants={fadeUp}
                     initial="hidden"
                     animate="visible"
@@ -67,7 +67,7 @@ export default function Hero() {
                         transition={{ repeat: Infinity, ease: 'linear', duration: 40 }}
                     >
                         {filmStripImages.map((src, i) => (
-                            <div key={i} className="relative w-32 md:w-48 h-full shrink-0">
+                            <div key={i} className="relative w-24 md:w-32 h-full shrink-0">
                                 <img
                                     src={src}
                                     alt="Memory"
@@ -80,8 +80,8 @@ export default function Hero() {
                     </motion.div>
 
                     {/* Left and Right Edge Fades (blend into background) */}
-                    <div className="absolute top-0 left-0 w-32 md:w-64 h-full bg-gradient-to-r from-[#080808] to-transparent pointer-events-none z-10" />
-                    <div className="absolute top-0 right-0 w-32 md:w-64 h-full bg-gradient-to-l from-[#080808] to-transparent pointer-events-none z-10" />
+                    <div className="absolute top-0 left-0 w-24 md:w-40 h-full bg-gradient-to-r from-[#080808] to-transparent pointer-events-none z-10" />
+                    <div className="absolute top-0 right-0 w-24 md:w-40 h-full bg-gradient-to-l from-[#080808] to-transparent pointer-events-none z-10" />
 
                     {/* Subtle warm glow behind the whole strip */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-10 bg-[var(--accent)] opacity-[0.05] blur-3xl rounded-full -z-10" />
