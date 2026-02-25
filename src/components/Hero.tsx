@@ -19,18 +19,11 @@ const fadeUp = {
 }
 
 export default function Hero() {
-    const [currentImage, setCurrentImage] = useState(0)
-
     // Collect all cover images (first image from each memory)
     const coverImages = memories.map(m => m.images[0])
 
-    // Cycle through cover images every 4 seconds
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentImage(prev => (prev + 1) % coverImages.length)
-        }, 4000)
-        return () => clearInterval(interval)
-    }, [coverImages.length])
+    // We duplicate the images so they can loop infinitely
+    const filmStripImages = [...coverImages, ...coverImages, ...coverImages]
 
     const scrollToGrid = () => {
         const grid = document.getElementById('memory-grid')
@@ -59,50 +52,39 @@ export default function Hero() {
 
             {/* Content — centered */}
             <div className="relative z-10 flex flex-col items-center text-center px-8">
-                {/* Animated photo frame — cycles through memory covers */}
+                {/* Horizontal Film Strip */}
                 <motion.div
-                    className="mb-10 md:mb-14 relative"
+                    className="mb-10 md:mb-14 relative w-[120vw] md:w-[80vw] max-w-5xl h-32 md:h-48 overflow-hidden"
                     variants={fadeUp}
                     initial="hidden"
                     animate="visible"
                     custom={0.2}
                 >
-                    {/* Warm glow behind frame */}
-                    <div className="absolute -inset-6 bg-[var(--accent)] opacity-[0.08] blur-3xl rounded-full" />
-
-                    {/* The frame itself */}
+                    {/* The infinite scrolling track */}
                     <motion.div
-                        className="relative w-52 h-52 md:w-72 md:h-72 overflow-hidden shadow-2xl border border-white/10"
-                        animate={{ rotateY: [0, 2, 0, -2, 0] }}
-                        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+                        className="flex gap-4 h-full absolute top-0 left-0"
+                        animate={{ x: ['0%', '-33.333%'] }}
+                        transition={{ repeat: Infinity, ease: 'linear', duration: 40 }}
                     >
-                        <AnimatePresence mode="wait">
-                            <motion.img
-                                key={currentImage}
-                                src={coverImages[currentImage]}
-                                alt="Memory preview"
-                                className="w-full h-full object-cover"
-                                initial={{ opacity: 0, scale: 1.1 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.95 }}
-                                transition={{ duration: 1.2, ease: [0.23, 1, 0.32, 1] }}
-                            />
-                        </AnimatePresence>
-
-                        {/* Subtle inner border glow */}
-                        <div className="absolute inset-0 border border-white/5" />
+                        {filmStripImages.map((src, i) => (
+                            <div key={i} className="relative w-40 md:w-64 h-full shrink-0">
+                                <img
+                                    src={src}
+                                    alt="Memory"
+                                    className="w-full h-full object-cover grayscale-[30%] contrast-125 sepia-[0.1]"
+                                />
+                                {/* Film style border overlay */}
+                                <div className="absolute inset-0 border border-white/10" />
+                            </div>
+                        ))}
                     </motion.div>
 
-                    {/* Image count dots */}
-                    <div className="flex justify-center gap-1.5 mt-4">
-                        {coverImages.map((_, i) => (
-                            <div
-                                key={i}
-                                className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${i === currentImage ? 'bg-[var(--accent)] scale-125' : 'bg-white/20'
-                                    }`}
-                            />
-                        ))}
-                    </div>
+                    {/* Left and Right Edge Fades (blend into background) */}
+                    <div className="absolute top-0 left-0 w-32 md:w-64 h-full bg-gradient-to-r from-[#080808] to-transparent pointer-events-none z-10" />
+                    <div className="absolute top-0 right-0 w-32 md:w-64 h-full bg-gradient-to-l from-[#080808] to-transparent pointer-events-none z-10" />
+
+                    {/* Subtle warm glow behind the whole strip */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-10 bg-[var(--accent)] opacity-[0.05] blur-3xl rounded-full -z-10" />
                 </motion.div>
 
                 {/* Title */}
