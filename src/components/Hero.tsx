@@ -69,16 +69,7 @@ export default function Hero() {
             <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] bg-[var(--accent)] rounded-full opacity-[0.03] blur-[180px] pointer-events-none" />
 
             <div className="relative z-10 max-w-5xl">
-                {/* Eyebrow */}
-                <motion.p
-                    className="text-xs md:text-sm tracking-[0.4em] uppercase text-[var(--muted)] mb-6 md:mb-8"
-                    variants={fadeUp}
-                    initial="hidden"
-                    animate="visible"
-                    custom={0.2}
-                >
-                    A living gallery
-                </motion.p>
+
 
                 {/* Headline */}
                 <motion.h1

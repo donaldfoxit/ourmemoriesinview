@@ -189,23 +189,7 @@ export default function PortraitGrid({
 
     return (
         <section className="relative min-h-[220vh] px-6 md:px-14 py-32 overflow-hidden">
-            {/* Section title */}
-            <motion.div
-                className="mb-16 md:mb-24"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-100px' }}
-                transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] as const }}
-            >
-                <p className="text-xs tracking-[0.4em] uppercase text-[var(--muted)] mb-3">
-                    The Collection
-                </p>
-                <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
-                    Moments That
-                    <br />
-                    <span className="text-[var(--accent)]">Made Us</span>
-                </h2>
-            </motion.div>
+
 
             {/* 3-column parallax grid */}
             <div className="flex gap-6 md:gap-10">
