@@ -2,11 +2,16 @@
 
 /* ── Design Tokens ── */
 :root {
-  --bg: #080808;
-  --fg: #f0e6d6;
+  --bg: #000000;
+  --fg: #ffffff;
   --accent: #d4a574;
   --accent-glow: rgba(212, 165, 116, 0.15);
   --muted: rgba(255, 255, 255, 0.45);
+}
+
+/* ── Typography Utilities ── */
+.font-serif {
+  font-family: var(--font-playfair), serif;
 }
 
 /* ── Base ── */

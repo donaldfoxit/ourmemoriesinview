@@ -1,130 +1,87 @@
 'use client'
 
-import { motion, AnimatePresence } from 'framer-motion'
-import { useEffect, useState } from 'react'
-import Fireflies from './Fireflies'
-import { memories } from '@/lib/memories'
-
-const fadeUp = {
-    hidden: { opacity: 0, y: 30 },
-    visible: (delay: number) => ({
-        opacity: 1,
-        y: 0,
-        transition: {
-            duration: 1,
-            delay,
-            ease: [0.23, 1, 0.32, 1] as const,
-        },
-    }),
-}
+import { motion } from 'framer-motion'
 
 export default function Hero() {
-    // Collect all cover images (first image from each memory)
-    const coverImages = memories.map(m => m.images[0])
+    const fadeUp = {
+        hidden: { opacity: 0, y: 30 },
+        visible: (custom: number) => ({
+            opacity: 1,
+            y: 0,
+            transition: { delay: custom, duration: 2, ease: "easeOut" as any },
+        }),
+    }
 
-    // We duplicate the images so they can loop infinitely
-    const filmStripImages = [...coverImages, ...coverImages, ...coverImages]
-
-    const scrollToGrid = () => {
-        const grid = document.getElementById('memory-grid')
-        if (grid) grid.scrollIntoView({ behavior: 'smooth' })
+    const scrollToTimeline = () => {
+        document.getElementById('timeline')?.scrollIntoView({ behavior: 'smooth' })
     }
 
     return (
-        <section className="relative h-screen flex flex-col items-center justify-center overflow-hidden">
-            {/* Background layer */}
-            <div className="absolute inset-0 z-0 select-none pointer-events-none">
-                <div className="absolute inset-0 bg-black" />
-                <img
-                    src="/hero-bg.jpg"
-                    alt=""
-                    className="absolute inset-0 w-full h-full object-cover object-center opacity-40 transition-opacity duration-1000"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/30" />
-                <div className="absolute inset-0 bg-black/30" />
-            </div>
+        <section className="relative w-full h-[100dvh] flex flex-col items-center justify-center overflow-hidden">
 
-            {/* Floating fireflies */}
-            <Fireflies />
+            {/* Extremely subtle ambient glow */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[var(--accent)] rounded-full opacity-[0.03] blur-[150px] pointer-events-none" />
 
-            {/* Ambient glow */}
-            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-[var(--accent)] rounded-full opacity-[0.04] blur-[150px] pointer-events-none" />
+            {/* Content Container */}
+            <div className="relative z-10 flex flex-col items-center text-center px-4 w-full">
 
-            {/* Content — centered */}
-            <div className="relative z-10 flex flex-col items-center text-center px-8">
-                {/* Horizontal Film Strip — Made extremely minimal with clear margins */}
+                {/* Tiny Pre-title */}
                 <motion.div
-                    className="mb-8 relative w-[calc(100vw-48px)] md:w-[50vw] max-w-2xl h-16 md:h-20 overflow-hidden"
+                    className="mb-8 text-[10px] sm:text-xs tracking-[0.4em] uppercase text-white/40 font-medium"
                     variants={fadeUp}
                     initial="hidden"
                     animate="visible"
-                    custom={0.2}
+                    custom={1.5}
                 >
-                    {/* The infinite scrolling track */}
-                    <motion.div
-                        className="flex gap-4 h-full absolute top-0 left-0"
-                        animate={{ x: ['0%', '-33.333%'] }}
-                        transition={{ repeat: Infinity, ease: 'linear', duration: 40 }}
-                    >
-                        {filmStripImages.map((src, i) => (
-                            <div key={i} className="relative w-24 md:w-32 h-full shrink-0">
-                                <img
-                                    src={src}
-                                    alt="Memory"
-                                    className="w-full h-full object-cover grayscale-[30%] contrast-125 sepia-[0.1]"
-                                />
-                                {/* Film style border overlay */}
-                                <div className="absolute inset-0 border border-white/10" />
-                            </div>
-                        ))}
-                    </motion.div>
-
-                    {/* Left and Right Edge Fades (blend into background) */}
-                    <div className="absolute top-0 left-0 w-24 md:w-40 h-full bg-gradient-to-r from-[#080808] to-transparent pointer-events-none z-10" />
-                    <div className="absolute top-0 right-0 w-24 md:w-40 h-full bg-gradient-to-l from-[#080808] to-transparent pointer-events-none z-10" />
-
-                    {/* Subtle warm glow behind the whole strip */}
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-10 bg-[var(--accent)] opacity-[0.05] blur-3xl rounded-full -z-10" />
+                    A Living Archive
                 </motion.div>
 
-                {/* Title */}
+                {/* Massive Serif Title */}
                 <motion.h1
-                    className="text-[clamp(2rem,6vw,4.5rem)] font-extrabold leading-[0.95] tracking-tight text-[var(--fg)]"
+                    className="font-serif text-[clamp(3.5rem,10vw,8rem)] leading-[0.9] tracking-tighter text-[#eaeaea] max-w-6xl mx-auto"
                     variants={fadeUp}
                     initial="hidden"
                     animate="visible"
-                    custom={0.5}
+                    custom={1.8}
                 >
-                    Our Memories
-                    <br />
-                    <span className="hero-shimmer">In View</span>
+                    <span className="block opacity-90">Our Memories</span>
+                    <span className="block italic font-light text-[var(--accent)] opacity-80 mt-2 sm:mt-0">
+                        In View
+                    </span>
                 </motion.h1>
 
-                {/* Subtitle */}
-                <motion.p
-                    className="mt-5 text-sm md:text-base text-[var(--muted)] tracking-wide max-w-sm"
+                {/* Subtitle / Metadata */}
+                <motion.div
+                    className="mt-12 md:mt-16 flex items-center gap-6 text-[#999] text-[10px] md:text-xs tracking-[0.2em] uppercase"
                     variants={fadeUp}
                     initial="hidden"
                     animate="visible"
-                    custom={0.8}
+                    custom={2.2}
                 >
-                    A living gallery of the moments that made us, us.
-                </motion.p>
+                    <span>Vol. 1</span>
+                    <span className="w-1 h-1 rounded-full bg-[var(--accent)] opacity-50" />
+                    <span>2024 Collection</span>
+                </motion.div>
 
-                {/* View Memories button — redesigned as a prominent, glowing CTA */}
+                {/* Scroll Indicator (Replaced CTA button with sleek scroll prompt) */}
                 <motion.button
-                    onClick={scrollToGrid}
-                    className="mt-10 md:mt-14 group relative px-10 py-4 text-sm tracking-[0.2em] uppercase font-bold overflow-hidden"
+                    onClick={scrollToTimeline}
+                    className="absolute bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 cursor-pointer group"
                     variants={fadeUp}
                     initial="hidden"
                     animate="visible"
-                    custom={1.1}
+                    custom={3.5}
                 >
-                    {/* Animated gradient background */}
-                    <div className="absolute inset-0 bg-[var(--accent)] transition-transform duration-500 group-hover:scale-105" />
-                    {/* Shine sweep on hover */}
-                    <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/25 to-transparent" />
-                    <span className="relative z-10 text-black">View Memories</span>
+                    <span className="text-[9px] tracking-[0.3em] uppercase text-white/30 group-hover:text-[var(--accent)] transition-colors duration-500">
+                        Scroll to begin
+                    </span>
+                    <div className="w-[1px] h-12 bg-white/10 relative overflow-hidden">
+                        <motion.div
+                            className="absolute top-0 left-0 w-full h-full bg-[var(--accent)]"
+                            animate={{ y: ['-100%', '100%'] }}
+                            transition={{ repeat: Infinity, ease: "linear", duration: 2 }}
+                        />
+                    </div>
                 </motion.button>
             </div>
         </section>
