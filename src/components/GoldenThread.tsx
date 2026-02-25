@@ -80,9 +80,9 @@ export default function GoldenThread() {
             }
 
             // Stroke with gradient opacity
-            const alpha = 0.6
-            ctx.strokeStyle = `rgba(212, 165, 116, ${alpha})`
-            ctx.lineWidth = 1.5
+            const alpha = 0.4
+            ctx.strokeStyle = `rgba(200, 200, 215, ${alpha})`
+            ctx.lineWidth = 1.0
             ctx.lineCap = 'round'
             ctx.lineJoin = 'round'
             ctx.stroke()
@@ -90,11 +90,11 @@ export default function GoldenThread() {
             // Draw fading head glow at current mouse position
             if (pts.length > 0) {
                 const head = pts[pts.length - 1]
-                const glow = ctx.createRadialGradient(head.x, head.y, 0, head.x, head.y, 12)
-                glow.addColorStop(0, 'rgba(212, 165, 116, 0.4)')
-                glow.addColorStop(1, 'rgba(212, 165, 116, 0)')
+                const glow = ctx.createRadialGradient(head.x, head.y, 0, head.x, head.y, 8)
+                glow.addColorStop(0, 'rgba(200, 200, 215, 0.3)')
+                glow.addColorStop(1, 'rgba(200, 200, 215, 0)')
                 ctx.beginPath()
-                ctx.arc(head.x, head.y, 12, 0, Math.PI * 2)
+                ctx.arc(head.x, head.y, 8, 0, Math.PI * 2)
                 ctx.fillStyle = glow
                 ctx.fill()
             }

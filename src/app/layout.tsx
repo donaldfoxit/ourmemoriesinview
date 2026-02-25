@@ -42,9 +42,13 @@ export default function RootLayout({
         <div className="grain" />
 
         {/* Global Cinematic Viewfinder Frame */}
-        <div className="fixed inset-4 md:inset-6 z-[9999] pointer-events-none border border-white/[0.08] rounded-2xl mix-blend-overlay" />
-        {/* Inner thin glow to the frame */}
-        <div className="fixed inset-4 md:inset-6 z-[9999] pointer-events-none border border-[var(--accent)] opacity-[0.03] rounded-2xl" />
+        <div className="fixed inset-4 md:inset-8 z-[9999] pointer-events-none border border-[var(--fg)]/[0.08] mix-blend-overlay" />
+
+        {/* Viewfinder Reticles (Tiny Crosshairs) */}
+        <div className="fixed top-1/2 left-4 md:left-8 w-2 h-[1px] bg-[var(--fg)]/30 z-[9999] pointer-events-none -translate-x-1/2" />
+        <div className="fixed top-1/2 right-4 md:right-8 w-2 h-[1px] bg-[var(--fg)]/30 z-[9999] pointer-events-none translate-x-1/2" />
+        <div className="fixed top-4 md:top-8 left-1/2 w-[1px] h-2 bg-[var(--fg)]/30 z-[9999] pointer-events-none -translate-y-1/2" />
+        <div className="fixed bottom-4 md:bottom-8 left-1/2 w-[1px] h-2 bg-[var(--fg)]/30 z-[9999] pointer-events-none translate-y-1/2" />
 
         {children}
       </body>

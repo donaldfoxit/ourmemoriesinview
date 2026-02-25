@@ -33,13 +33,13 @@ export default function Fireflies() {
         window.addEventListener('resize', resize)
 
         // Initialize particles
-        const count = 35
+        const count = 15 // reduced for a sparser, subtle feel
         particlesRef.current = Array.from({ length: count }, () => ({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
-            vx: (Math.random() - 0.5) * 0.3,
-            vy: -(Math.random() * 0.2 + 0.1), // Float upward
-            size: Math.random() * 2.5 + 1,
+            vx: (Math.random() - 0.5) * 0.1, // slower
+            vy: -(Math.random() * 0.1 + 0.05), // float upward slower
+            size: Math.random() * 1.5 + 0.5, // smaller
             opacity: Math.random() * 0.6 + 0.2,
             phase: Math.random() * Math.PI * 2,
             speed: Math.random() * 0.005 + 0.003,
@@ -80,11 +80,11 @@ export default function Fireflies() {
                 if (p.x < -10) p.x = canvas.width + 10
                 if (p.x > canvas.width + 10) p.x = -10
 
-                // Draw glow
+                // Draw glow (Cool silver)
                 const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 4)
-                gradient.addColorStop(0, `rgba(212, 165, 116, ${alpha})`)
-                gradient.addColorStop(0.5, `rgba(212, 165, 116, ${alpha * 0.3})`)
-                gradient.addColorStop(1, 'rgba(212, 165, 116, 0)')
+                gradient.addColorStop(0, `rgba(200, 200, 215, ${alpha})`)
+                gradient.addColorStop(0.5, `rgba(200, 200, 215, ${alpha * 0.3})`)
+                gradient.addColorStop(1, 'rgba(200, 200, 215, 0)')
                 ctx.beginPath()
                 ctx.arc(p.x, p.y, p.size * 4, 0, Math.PI * 2)
                 ctx.fillStyle = gradient
@@ -93,7 +93,7 @@ export default function Fireflies() {
                 // Draw core
                 ctx.beginPath()
                 ctx.arc(p.x, p.y, p.size * 0.6, 0, Math.PI * 2)
-                ctx.fillStyle = `rgba(255, 230, 190, ${alpha})`
+                ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`
                 ctx.fill()
             })
 

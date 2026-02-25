@@ -27,7 +27,7 @@ export default function Hero() {
 
                 {/* Tiny Pre-title */}
                 <motion.div
-                    className="mb-8 text-[10px] sm:text-xs tracking-[0.4em] uppercase text-white/40 font-medium"
+                    className="mb-8 text-[10px] sm:text-xs tracking-[0.4em] uppercase text-[var(--fg)]/50 font-medium"
                     variants={fadeUp}
                     initial="hidden"
                     animate="visible"
@@ -38,7 +38,7 @@ export default function Hero() {
 
                 {/* Massive Serif Title */}
                 <motion.h1
-                    className="font-serif text-[clamp(3.5rem,10vw,8rem)] leading-[0.9] tracking-tighter text-[#eaeaea] max-w-6xl mx-auto"
+                    className="font-serif text-[clamp(3.5rem,10vw,8rem)] leading-[0.9] tracking-tighter text-[var(--fg)] max-w-6xl mx-auto"
                     variants={fadeUp}
                     initial="hidden"
                     animate="visible"
@@ -52,7 +52,7 @@ export default function Hero() {
 
                 {/* Subtitle / Metadata */}
                 <motion.div
-                    className="mt-12 md:mt-16 flex items-center gap-6 text-[#999] text-[10px] md:text-xs tracking-[0.2em] uppercase"
+                    className="mt-12 md:mt-16 flex items-center gap-6 text-[var(--fg)]/60 text-[10px] md:text-xs tracking-[0.2em] uppercase"
                     variants={fadeUp}
                     initial="hidden"
                     animate="visible"
@@ -72,10 +72,10 @@ export default function Hero() {
                     animate="visible"
                     custom={3.5}
                 >
-                    <span className="text-[9px] tracking-[0.3em] uppercase text-white/30 group-hover:text-[var(--accent)] transition-colors duration-500">
+                    <span className="text-[9px] tracking-[0.3em] uppercase text-[var(--fg)]/40 group-hover:text-[var(--accent)] transition-colors duration-500">
                         Scroll to begin
                     </span>
-                    <div className="w-[1px] h-12 bg-white/10 relative overflow-hidden">
+                    <div className="w-[1px] h-12 bg-[var(--fg)]/10 relative overflow-hidden">
                         <motion.div
                             className="absolute top-0 left-0 w-full h-full bg-[var(--accent)]"
                             animate={{ y: ['-100%', '100%'] }}
