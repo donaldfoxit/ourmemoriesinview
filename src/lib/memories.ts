@@ -20,7 +20,7 @@ export const memories: Memory[] = [
         location: 'Lekki Beach, Lagos',
         caption: 'We were running late but the sky waited for us. Golden hour never looked this good.',
         images: [
-            'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80',
+            '/memories/beach-sunset/1.webp',
             'https://images.unsplash.com/photo-1476673160081-cf065607f449?w=800&q=80',
             'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=800&q=80',
             'https://images.unsplash.com/photo-1473116763249-2faaef81ccda?w=800&q=80',

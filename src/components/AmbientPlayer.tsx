@@ -23,6 +23,14 @@ export default function AmbientPlayer() {
         return () => audio.removeEventListener('canplaythrough', handleCanPlay)
     }, [])
 
+    useEffect(() => {
+        const handleStartEvent = () => {
+            if (!playing) toggle()
+        }
+        window.addEventListener('start-ambient-music', handleStartEvent)
+        return () => window.removeEventListener('start-ambient-music', handleStartEvent)
+    }, [playing])
+
     const toggle = () => {
         const audio = audioRef.current
         if (!audio) return

@@ -8,6 +8,7 @@ import MemoryModal from '@/components/MemoryModal'
 import SurpriseMe from '@/components/SurpriseMe'
 import AmbientPlayer from '@/components/AmbientPlayer'
 import GoldenThread from '@/components/GoldenThread'
+import FirstTouch from '@/components/FirstTouch'
 import { type Memory } from '@/lib/memories'
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
 
   return (
     <>
+      <FirstTouch />
       <Loader />
       <main className="bg-black text-white">
         <Hero />
