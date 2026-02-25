@@ -198,7 +198,7 @@ export default function PortraitGrid({
     const dupesMap = columns.map(col => [...col, ...col, ...col, ...col, ...col, ...col, ...col, ...col])
 
     return (
-        <section id="memory-grid" className="relative h-[120vh] md:h-[150vh] px-6 md:px-14 py-20 overflow-hidden">
+        <section id="memory-grid" className="relative h-[130vh] md:h-[160vh] px-10 sm:px-16 md:px-24 lg:px-32 py-24 overflow-hidden">
             {/* 4-column infinite parallax grid */}
             <div className="flex gap-4 md:gap-6 h-full max-w-[1800px] mx-auto z-0 relative">
                 {columns.map((col, colIndex) => {
