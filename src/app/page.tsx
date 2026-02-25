@@ -7,6 +7,7 @@ import Loader from '@/components/Loader'
 import MemoryModal from '@/components/MemoryModal'
 import SurpriseMe from '@/components/SurpriseMe'
 import AmbientPlayer from '@/components/AmbientPlayer'
+import GoldenThread from '@/components/GoldenThread'
 import { type Memory } from '@/lib/memories'
 
 export default function Home() {
@@ -29,6 +30,7 @@ export default function Home() {
       {/* Floating UI */}
       <SurpriseMe onSurprise={setSelectedMemory} />
       <AmbientPlayer />
+      <GoldenThread />
     </>
   )
 }

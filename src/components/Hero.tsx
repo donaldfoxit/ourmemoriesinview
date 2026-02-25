@@ -1,6 +1,6 @@
 'use client'
-
 import { motion } from 'framer-motion'
+import Fireflies from './Fireflies'
 
 const fadeUp = {
     hidden: { opacity: 0, y: 30 },
@@ -34,6 +34,9 @@ export default function Hero() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/30" />
                 <div className="absolute inset-0 bg-black/30" />
             </div>
+
+            {/* Floating fireflies */}
+            <Fireflies />
 
             {/* Ambient glow */}
             <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-[var(--accent)] rounded-full opacity-[0.04] blur-[150px] pointer-events-none" />
