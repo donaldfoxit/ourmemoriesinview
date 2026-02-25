@@ -37,7 +37,7 @@ function MemoryCard({
         flipIntervalRef.current = setInterval(() => {
             idx = (idx + 1) % memory.images.length
             setCurrentImageIndex(idx)
-        }, 150)
+        }, 280)
     }, [memory.images])
 
     const stopFlipbook = useCallback(() => {
@@ -125,14 +125,14 @@ function MemoryCard({
                 ))}
             </div>
 
-            {/* Always-visible label — location & date */}
-            <div className="absolute bottom-0 left-0 right-0 z-20 p-4 md:p-5 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
-                <p className="font-[var(--font-caveat)] text-lg md:text-xl text-white leading-snug">
+            {/* Polaroid-style label strip */}
+            <div className="absolute bottom-0 left-0 right-0 z-20 bg-[#faf8f5] px-4 py-3 md:px-5 md:py-4 rounded-b-xl">
+                <p className="font-[var(--font-caveat)] text-base md:text-lg text-[#2a2a2a] leading-snug truncate">
                     {memory.title}
                 </p>
-                <p className="text-[10px] tracking-[0.15em] uppercase text-white/50 mt-1.5 flex items-center gap-2">
-                    <span>📍 {memory.location}</span>
-                    <span className="w-[3px] h-[3px] rounded-full bg-white/30" />
+                <p className="font-[var(--font-caveat)] text-xs md:text-sm text-[#8a8580] mt-0.5 flex items-center gap-1.5">
+                    <span>{memory.location}</span>
+                    <span className="text-[#c8a87c]">·</span>
                     <span>{formatMemoryDate(memory.date)}</span>
                 </p>
             </div>
