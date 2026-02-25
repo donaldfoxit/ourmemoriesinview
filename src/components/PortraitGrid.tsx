@@ -101,7 +101,7 @@ function MemoryCard({
         >
             {/* Season color overlay */}
             <div
-                className="absolute inset-0 z-10 pointer-events-none rounded-xl"
+                className="absolute inset-0 z-10 pointer-events-none"
                 style={{ background: seasonTint[memory.season] || 'transparent' }}
             />
 
@@ -125,23 +125,26 @@ function MemoryCard({
                 ))}
             </div>
 
-            {/* Title + tags overlay — centered on card */}
-            <div className="absolute inset-0 z-20 flex flex-col justify-end items-start p-6 md:p-8 pb-8 md:pb-10 bg-gradient-to-t from-black/80 via-black/30 to-transparent">
-                <h3 className="text-3xl md:text-5xl text-white leading-[1.1]" style={{ fontFamily: 'var(--font-dancing)' }}>
+            {/* Dark tint overlay — visible by default, vanishes on hover */}
+            <div className="absolute inset-0 z-15 bg-black/40 transition-opacity duration-500 group-hover:opacity-0 pointer-events-none" />
+
+            {/* Title + tags overlay — bottom of card */}
+            <div className="absolute inset-0 z-20 flex flex-col justify-end items-start p-5 md:p-6 pb-6 md:pb-8 bg-gradient-to-t from-black/70 via-black/20 to-transparent">
+                <h3 className="text-sm md:text-base font-bold text-white uppercase tracking-wide leading-tight">
                     {memory.title}
                 </h3>
 
                 {/* Tag pills */}
-                <div className="flex flex-wrap gap-1.5 mt-4">
+                <div className="flex flex-wrap gap-1.5 mt-3">
                     {memory.tags.map((tag) => (
                         <span
                             key={tag}
-                            className="px-3 py-1 text-[10px] tracking-wider uppercase rounded-full bg-white/10 backdrop-blur-sm text-white/80"
+                            className="px-2 py-0.5 text-[9px] tracking-wider uppercase bg-white/10 backdrop-blur-sm text-white/80"
                         >
                             {tag}
                         </span>
                     ))}
-                    <span className="px-3 py-1 text-[10px] tracking-wider rounded-full bg-white/10 backdrop-blur-sm text-white/60 flex items-center gap-1">
+                    <span className="px-2 py-0.5 text-[9px] tracking-wider bg-white/10 backdrop-blur-sm text-white/60 flex items-center gap-1">
                         📍 {memory.location}
                     </span>
                 </div>
@@ -195,7 +198,7 @@ export default function PortraitGrid({
     const dupesMap = columns.map(col => [...col, ...col, ...col, ...col, ...col, ...col, ...col, ...col])
 
     return (
-        <section className="relative h-[120vh] md:h-[150vh] px-6 md:px-14 py-20 overflow-hidden">
+        <section id="memory-grid" className="relative h-[120vh] md:h-[150vh] px-6 md:px-14 py-20 overflow-hidden">
             {/* 4-column infinite parallax grid */}
             <div className="flex gap-4 md:gap-6 h-full max-w-[1800px] mx-auto z-0 relative">
                 {columns.map((col, colIndex) => {
