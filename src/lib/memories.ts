@@ -15,11 +15,12 @@ export interface Memory {
 export const memories: Memory[] = [
     {
         id: 'beach-sunset',
-        title: 'That sunset we almost missed',
+        title: 'THE SUNSET WE ALMOST KISSED',
         date: '2024-08-12',
-        location: 'Lekki Beach, Lagos',
+        location: 'SINOMART SUPERMARKET, ONIRU',
         caption: 'We were running late but the sky waited for us. Golden hour never looked this good.',
         images: [
+            '/memories/beach-sunset/1_ghibli.png',
             '/memories/beach-sunset/1.webp',
             'https://images.unsplash.com/photo-1476673160081-cf065607f449?w=800&q=80',
             'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=800&q=80',
