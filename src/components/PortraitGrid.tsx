@@ -171,7 +171,8 @@ export default function PortraitGrid({
             const scrollY = window.scrollY
             columnsRef.current.forEach((col, i) => {
                 if (!col) return
-                const isUp = i !== 1
+                // Alternate directions: Up, Down, Up, Down
+                const isUp = i % 2 === 0
                 const speed = 0.15 + i * 0.05
                 const dir = isUp ? -1 : 1
                 col.style.transform = `translateY(${scrollY * speed * dir}px)`
@@ -185,19 +186,20 @@ export default function PortraitGrid({
         }
     }, [])
 
-    // Split memories across 3 columns
-    const columns: Memory[][] = [[], [], []]
-    memories.forEach((m, i) => columns[i % 3].push(m))
+    // Split memories across 4 columns to make frames smaller
+    const columns: Memory[][] = [[], [], [], []]
+    memories.forEach((m, i) => columns[i % 4].push(m))
 
     // Duplicate heavily for infinite loop
     const dupesMap = columns.map(col => [...col, ...col, ...col, ...col, ...col, ...col, ...col, ...col])
 
     return (
         <section className="relative h-[120vh] md:h-[150vh] px-6 md:px-14 py-20 overflow-hidden">
-            {/* 3-column infinite parallax grid */}
-            <div className="flex gap-6 md:gap-10 h-full max-w-[1400px] mx-auto z-0 relative">
+            {/* 4-column infinite parallax grid */}
+            <div className="flex gap-4 md:gap-6 h-full max-w-[1800px] mx-auto z-0 relative">
                 {columns.map((col, colIndex) => {
-                    const isUp = colIndex !== 1
+                    // Alternate up/down: 0=up, 1=down, 2=up, 3=down
+                    const isUp = colIndex % 2 === 0
                     return (
                         <div
                             key={colIndex}
@@ -206,15 +208,16 @@ export default function PortraitGrid({
                             style={{ transition: 'transform 0.1s linear' }}
                         >
                             <motion.div
-                                className="absolute top-0 left-0 w-full flex flex-col gap-6 md:gap-10"
+                                className="absolute top-0 left-0 w-full flex flex-col gap-4 md:gap-6"
                                 animate={{ y: isUp ? ['0%', '-50%'] : ['-50%', '0%'] }}
-                                transition={{ repeat: Infinity, ease: 'linear', duration: 40 + colIndex * 8 }}
+                                // Drastically slowed down base duration from 40 to 120 so it practically floats
+                                transition={{ repeat: Infinity, ease: 'linear', duration: 120 + colIndex * 20 }}
                             >
                                 {dupesMap[colIndex].map((memory, i) => (
                                     <MemoryCard
                                         key={`${memory.id}-${i}`}
                                         memory={memory}
-                                        index={colIndex * 3 + (i % col.length)}
+                                        index={colIndex * 4 + (i % col.length)}
                                         onOpen={onOpenMemory}
                                     />
                                 ))}
