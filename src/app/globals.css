@@ -2,11 +2,11 @@
 
 /* ── Design Tokens ── */
 :root {
-  --bg: #d96d00;
-  --fg: #fffaf0;
-  --accent: #5e2a00;
-  --accent-glow: rgba(94, 42, 0, 0.25);
-  --muted: rgba(255, 250, 240, 0.45);
+  --bg: #000000;
+  --fg: #ffffff;
+  --accent: #d4a574;
+  --accent-glow: rgba(212, 165, 116, 0.15);
+  --muted: rgba(255, 255, 255, 0.45);
 }
 
 /* ── Typography Utilities ── */

@@ -44,18 +44,14 @@ function MemoryCard({
             <img
                 src={memory.images[imgIndex]}
                 alt={memory.title}
-                className="w-full h-full object-cover filter brightness-110 contrast-125 transition-all duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105 group-hover:brightness-100 group-hover:contrast-100"
+                className="w-full h-full object-cover filter brightness-[0.75] contrast-[1.1] grayscale-[0.2] transition-all duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105 group-hover:brightness-100 group-hover:grayscale-0"
             />
 
-            {/* Themed Duotone Overlay (Amber/Sepia) - reveals original on hover */}
-            <div className="absolute inset-0 bg-[var(--accent)] mix-blend-color opacity-100 transition-opacity duration-700 group-hover:opacity-0 pointer-events-none" />
-            <div className="absolute inset-0 bg-[var(--accent)] mix-blend-multiply opacity-40 transition-opacity duration-700 group-hover:opacity-0 pointer-events-none" />
-
             {/* Subtle Vignette for depth */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[var(--accent)]/60 via-transparent to-[var(--accent)]/20 opacity-80 group-hover:opacity-40 transition-opacity duration-700 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 opacity-80 group-hover:opacity-40 transition-opacity duration-700 pointer-events-none" />
 
-            {/* Hover Tint - vanishes on hover (Lightened for bright theme) */}
-            <div className="absolute inset-0 bg-[var(--accent)]/15 transition-colors duration-700 group-hover:bg-transparent pointer-events-none" />
+            {/* Hover Tint - vanishes on hover */}
+            <div className="absolute inset-0 bg-black/40 transition-colors duration-700 group-hover:bg-transparent pointer-events-none" />
 
             {/* Internal Frame Border */}
             <div className="absolute inset-2 border border-[var(--fg)]/10 pointer-events-none" />
