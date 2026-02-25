@@ -122,11 +122,11 @@ export default function PortraitGrid({
         }
     }, [])
 
-    // STRICT 4-Column, 2-Row layout (Exactly 8 cards total)
-    // Slice exactly 8 memories, then distribute them into 4 columns (2 per column)
-    const displayMemories = memories.slice(0, 8)
-    const columns: Memory[][] = [[], [], [], []]
-    displayMemories.forEach((m, i) => columns[i % 4].push(m))
+    // STRICT 3-Column, 2-Row layout (Exactly 6 cards total)
+    // Slice exactly 6 memories, then distribute them into 3 columns (2 per column)
+    const displayMemories = memories.slice(0, 6)
+    const columns: Memory[][] = [[], [], []]
+    displayMemories.forEach((m, i) => columns[i % 3].push(m))
 
     return (
         <section id="timeline" className="relative h-[150vh] md:h-[200vh] px-8 sm:px-12 md:px-24 lg:px-32 py-32 overflow-hidden bg-[var(--bg)] flex justify-center">
@@ -146,8 +146,8 @@ export default function PortraitGrid({
                 </div>
             </motion.div>
 
-            {/* 4-column static parallax grid (exactly 2 rows) */}
-            <div className="flex gap-4 md:gap-8 min-h-[100vh] w-full max-w-[1400px] z-10 relative pt-32 pb-48">
+            {/* 3-column static parallax grid (exactly 2 rows) */}
+            <div className="flex gap-6 md:gap-12 min-h-[100vh] w-full max-w-[1200px] z-10 relative pt-32 pb-48">
                 {columns.map((col, colIndex) => {
                     // Stagger the vertical starting position of alternating columns to create the asymmetrical grid feel
                     const isOffset = colIndex % 2 !== 0
@@ -163,7 +163,7 @@ export default function PortraitGrid({
                                 <MemoryCard
                                     key={`${memory.id}-${i}`}
                                     memory={memory}
-                                    index={colIndex + i * 4}
+                                    index={colIndex + i * 3}
                                     onOpen={onOpenMemory}
                                 />
                             ))}
