@@ -173,7 +173,8 @@ export default function PortraitGrid({
                 if (!col) return
                 // Alternate directions: Up, Down, Up, Down
                 const isUp = i % 2 === 0
-                const speed = 0.15 + i * 0.05
+                // Massive reduction in scroll speed multiplier
+                const speed = 0.03 + i * 0.015
                 const dir = isUp ? -1 : 1
                 col.style.transform = `translateY(${scrollY * speed * dir}px)`
             })
@@ -210,8 +211,8 @@ export default function PortraitGrid({
                             <motion.div
                                 className="absolute top-0 left-0 w-full flex flex-col gap-4 md:gap-6"
                                 animate={{ y: isUp ? ['0%', '-50%'] : ['-50%', '0%'] }}
-                                // Drastically slowed down base duration from 40 to 120 so it practically floats
-                                transition={{ repeat: Infinity, ease: 'linear', duration: 120 + colIndex * 20 }}
+                                // Extremerly slow duration (350s base) for a very subtle float
+                                transition={{ repeat: Infinity, ease: 'linear', duration: 350 + colIndex * 50 }}
                             >
                                 {dupesMap[colIndex].map((memory, i) => (
                                     <MemoryCard
