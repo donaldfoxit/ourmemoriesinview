@@ -1,0 +1,404 @@
+/* ==========================================================================
+   Voku.Studio™ Replica – Styles
+   ========================================================================== */
+
+:root {
+    --white: #fffdfc;
+    --black: #0a0a0a;
+    --grey: #aeaeae;
+    --bg: #f0eeec;
+    --font-sans: 'Archivo', sans-serif;
+    --font-mono: 'Fragment Mono', monospace;
+    --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-size: clamp(14px, 1.1111vw, 48px);
+    overflow: hidden;
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    line-height: 1.25;
+    background-color: var(--bg);
+    color: var(--black);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+body.--loaded {
+    opacity: 1;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+}
+
+img {
+    display: block;
+    max-width: none;
+}
+
+/* ---------- Preloader ---------- */
+#Preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    color: var(--black);
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+#Preloader.--hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.preloader-text {
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.progress {
+    width: 5rem;
+    height: 1px;
+    background: var(--grey);
+    margin-top: 0.625rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.thumb {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background: var(--black);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+/* ---------- Header (Desktop) ---------- */
+#Header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 56vh;
+    z-index: 10;
+    pointer-events: none;
+    mix-blend-mode: difference;
+}
+
+@media (max-width: 480px) {
+    #Header {
+        display: none;
+    }
+}
+
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    position: relative;
+}
+
+.nav-link {
+    --scale: 0;
+    --origin: 100%;
+    display: block;
+    position: relative;
+    pointer-events: all;
+    color: #fff;
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: clamp(14px, 1.1111vw, 48px);
+    letter-spacing: 0.01em;
+    line-height: 1;
+    padding: 0.6em 0.625rem;
+    white-space: nowrap;
+    overflow: hidden;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: font-weight 0.3s ease;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    bottom: 0.35em;
+    left: 0.625rem;
+    width: calc(100% - 1.25rem);
+    border-bottom: 1px solid currentColor;
+    transform: scaleX(var(--scale));
+    transform-origin: var(--origin);
+    transition: transform 0.4s var(--ease-out-quint);
+}
+
+.nav-link:hover {
+    --scale: 1;
+    --origin: 0%;
+}
+
+.nav-link span {
+    display: block;
+    position: relative;
+}
+
+/* Bold state for project title when active */
+.nav-project-title.--active {
+    font-weight: 700;
+}
+
+.nav-project-title span {
+    transition: opacity 0.25s ease, font-weight 0.25s ease;
+}
+
+/* ---------- Header (Mobile) ---------- */
+#HeaderMobile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100svh;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    pointer-events: none;
+    mix-blend-mode: difference;
+}
+
+@media (max-width: 480px) {
+    #HeaderMobile {
+        display: flex;
+    }
+}
+
+.header-nav-mobile {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+}
+
+.header-nav-mobile .nav-link {
+    font-size: 16px;
+    padding: 0.5em 0.5rem;
+    color: #fff;
+    pointer-events: all;
+}
+
+#arc-slider {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    overflow: visible;
+    cursor: grab;
+}
+
+#arc-slider:active {
+    cursor: grabbing;
+}
+
+.arc-slider__container {
+    position: absolute;
+    left: 8%;
+    top: 0;
+    width: 84%;
+    height: 100%;
+}
+
+.arc-card {
+    position: absolute;
+    overflow: hidden;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    background: #1a1a1a;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.4s ease;
+}
+
+.arc-card.--center {
+    box-shadow: 0 12px 60px rgba(0, 0, 0, 0.3);
+}
+
+.arc-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
+}
+
+/* ---------- Main & Home Section ---------- */
+#Main {
+    position: relative;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.widget-home {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 3vh;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.sello {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.voku-logo-svg {
+    width: 35vw;
+    height: auto;
+    fill: var(--black);
+    opacity: 0.06;
+}
+
+@media (max-width: 480px) {
+    .voku-logo-svg {
+        width: 65vw;
+    }
+}
+
+/* ---------- Cookie Consent ---------- */
+#CookieConsent {
+    position: fixed;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    z-index: 50;
+    max-width: 400px;
+    background: var(--white);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    padding: 1em 1.2em;
+    font-size: 0.68rem;
+    line-height: 1.4;
+    font-family: var(--font-sans);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    pointer-events: none;
+}
+
+#CookieConsent.--visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+}
+
+#CookieConsent.--dismissed {
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+}
+
+.cookie-content {
+    margin-bottom: 0.8em;
+    color: var(--black);
+}
+
+.cookie-content a {
+    text-decoration: underline;
+}
+
+.cookie-btns {
+    display: flex;
+    gap: 0.4em;
+    justify-content: flex-end;
+}
+
+.cookie-btn {
+    font-size: 0.65rem;
+    font-family: var(--font-sans);
+    padding: 0.35em 0.7em;
+    border: 1px solid var(--black);
+    background: transparent;
+    color: var(--black);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.cookie-btn:hover {
+    background: var(--black);
+    color: var(--white);
+}
+
+.cookie-btn--full {
+    background: var(--black);
+    color: var(--white);
+}
+
+.cookie-btn--full:hover {
+    background: #333;
+}
+
+::selection {
+    background: var(--black);
+    color: var(--white);
+}

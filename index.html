@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Voku.Studio™</title>
+    <meta name="description"
+        content="Voku.Studio™ – Creative digital studio specializing in immersive visual experiences.">
+    <meta property="og:title" content="Voku.Studio™">
+    <meta property="og:description" content="Creative digital studio.">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Fragment+Mono&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- SVG Sprites -->
+    <div style="width:0;height:0;overflow:hidden;position:absolute">
+        <svg xmlns="http://www.w3.org/2000/svg">
+            <symbol viewBox="0 0 891.51 502.06" id="svg-logo-simple">
+                <g>
+                    <circle cx="72.17" cy="298.2" r="72.17" />
+                    <path
+                        d="M819.34 226.03c-17.04 0-32.68 5.92-45.03 15.79 12.89-15.29 20.66-35.04 20.66-56.61 0-48.54-39.35-87.88-87.88-87.88s-87.88 39.35-87.88 87.88 39.35 87.88 87.88 87.88c21.34 0 40.91-7.61 56.14-20.27-10.04 12.4-16.06 28.18-16.06 45.37 0 39.86 32.31 72.17 72.17 72.17s72.17-32.31 72.17-72.17-32.31-72.17-72.17-72.17z" />
+                    <circle cx="185.79" cy="185.22" r="87.88" />
+                    <circle cx="348.87" cy="97.33" r="97.33" />
+                    <circle cx="543.54" cy="97.33" r="97.33" />
+                    <circle cx="446.21" cy="343.64" r="158.42" />
+                </g>
+            </symbol>
+        </svg>
+    </div>
+</head>
+
+<body>
+    <!-- Preloader -->
+    <div id="Preloader">
+        <span class="preloader-text">Loading</span>
+        <div class="progress">
+            <div class="thumb"></div>
+        </div>
+    </div>
+
+    <!-- Arc Slider -->
+    <div id="arc-slider">
+        <div id="arcContainer" class="arc-slider__container"></div>
+    </div>
+
+    <!-- Header Desktop -->
+    <header id="Header">
+        <nav class="header-nav">
+            <a href="/" class="nav-link nav-logo"><span>Voku.Studio™</span></a>
+            <a href="#" class="nav-link nav-project-title" id="projectTitle"><span>—</span></a>
+            <a href="/works" class="nav-link"><span>Works</span></a>
+            <a href="/artifacts" class="nav-link"><span>Artifacts</span></a>
+            <a href="/about" class="nav-link"><span>About</span></a>
+            <a href="/contact" class="nav-link"><span>Contact</span></a>
+        </nav>
+    </header>
+
+    <!-- Header Mobile -->
+    <header id="HeaderMobile">
+        <nav class="header-nav-mobile">
+            <a href="/" class="nav-link nav-logo"><span>Voku.Studio™</span></a>
+            <a href="#" class="nav-link nav-project-title" id="projectTitleMobile"><span>—</span></a>
+            <a href="/works" class="nav-link"><span>Works</span></a>
+            <a href="/about" class="nav-link"><span>About</span></a>
+            <a href="/contact" class="nav-link"><span>Contact</span></a>
+        </nav>
+    </header>
+
+    <!-- Main -->
+    <main id="Main">
+        <section class="widget-home">
+            <div class="sello">
+                <svg class="voku-logo-svg" aria-hidden="true">
+                    <use href="#svg-logo-simple"></use>
+                </svg>
+            </div>
+        </section>
+    </main>
+
+    <!-- Cookie Consent -->
+    <div id="CookieConsent">
+        <p class="cookie-content">This website uses its own and third-party cookies necessary for its operation and to
+            analyze your browsing habits. For more information, please access our <a href="#">cookies policy</a>.</p>
+        <div class="cookie-btns">
+            <button class="cookie-btn" id="cookieSettings">Settings</button>
+            <button class="cookie-btn" id="cookieCancel">Cancel</button>
+            <button class="cookie-btn cookie-btn--full" id="cookieAccept">Got it</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
